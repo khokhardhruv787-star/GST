@@ -1,0 +1,3101 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OceanArc Exim Invoice & Salary Suite</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <style>
+        /* CSS RESET & MODERN STYLING VARIABLE SYSTEM */
+        :root {
+            --font-main: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            --font-mono: 'JetBrains Mono', 'Courier New', monospace;
+
+            /* HSL Color Accents */
+            --primary-h: 224;
+            --primary-s: 76%;
+            --primary-l: 48%;
+            /* Royal Indigo */
+
+            --primary: hsl(var(--primary-h), var(--primary-s), var(--primary-l));
+            --primary-hover: hsl(var(--primary-h), var(--primary-s), calc(var(--primary-l) - 8%));
+            --primary-light: hsl(var(--primary-h), var(--primary-s), 95%);
+
+            --success: #10b981;
+            --danger: #ef4444;
+            --warning: #f59e0b;
+            --info: #06b6d4;
+
+            /* Light Theme Defaults */
+            --bg-app: #f8fafc;
+            --bg-card: #ffffff;
+            --bg-input: #ffffff;
+            --bg-input-focus: #ffffff;
+            --text-main: #0f172a;
+            --text-muted: #64748b;
+            --border-color: #e2e8f0;
+            --border-focus: hsl(var(--primary-h), var(--primary-s), 70%);
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -4px rgba(0, 0, 0, 0.05);
+            --shadow-glow: 0 0 15px rgba(99, 102, 241, 0.15);
+
+            --radius-sm: 6px;
+            --radius-md: 12px;
+            --radius-lg: 16px;
+            --transition-speed: 0.25s;
+        }
+
+        [data-theme="dark"] {
+            --bg-app: #090d16;
+            --bg-card: #151e2e;
+            --bg-input: #0e1420;
+            --bg-input-focus: #1b263b;
+            --text-main: #f1f5f9;
+            --text-muted: #94a3b8;
+            --border-color: #243048;
+            --primary-light: rgba(99, 102, 241, 0.15);
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.4);
+            --shadow-md: 0 4px 8px -1px rgba(0, 0, 0, 0.4);
+            --shadow-lg: 0 10px 20px -3px rgba(0, 0, 0, 0.4);
+            --shadow-glow: 0 0 20px rgba(99, 102, 241, 0.25);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: var(--font-main);
+        }
+
+        body {
+            background-color: var(--bg-app);
+            color: var(--text-main);
+            min-height: 100vh;
+            transition: background-color var(--transition-speed), color var(--transition-speed);
+        }
+
+        /* UTILITY STYLES */
+        .flex {
+            display: flex;
+        }
+
+        .align-center {
+            align-items: center;
+        }
+
+        .justify-between {
+            justify-content: space-between;
+        }
+
+        .gap-10 {
+            gap: 10px;
+        }
+
+        .gap-15 {
+            gap: 15px;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        /* HEADER & TOP NAVBAR */
+        .app-header {
+            background: linear-gradient(135deg, hsl(224, 76%, 15%) 0%, hsl(224, 76%, 8%) 100%);
+            color: #ffffff;
+            padding: 20px 40px;
+            border-bottom: 4px solid var(--primary);
+            box-shadow: var(--shadow-md);
+        }
+
+        .header-content {
+            max-width: 1600px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo-title-group h1 {
+            font-size: 24px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            background: linear-gradient(to right, #ffffff, #93c5fd);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .logo-title-group p {
+            font-size: 13px;
+            color: #94a3b8;
+            margin-top: 2px;
+        }
+
+        .header-controls {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        /* THEME TOGGLE BUTTON */
+        .theme-toggle-btn {
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            color: #ffffff;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+
+        .theme-toggle-btn:hover {
+            background: rgba(255, 255, 255, 0.15);
+            transform: scale(1.05);
+        }
+
+        /* MAIN APP CONTAINER */
+        .app-container {
+            max-width: 1700px;
+            margin: 30px auto;
+            padding: 0 25px;
+        }
+
+        /* TABS ELEMENT */
+        .tab-nav {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 25px;
+            background: var(--bg-card);
+            padding: 6px;
+            border-radius: var(--radius-md);
+            border: 1px solid var(--border-color);
+            box-shadow: var(--shadow-sm);
+            max-width: 500px;
+        }
+
+        .tab-btn {
+            flex: 1;
+            padding: 10px 16px;
+            border: none;
+            border-radius: calc(var(--radius-md) - 4px);
+            font-size: 14px;
+            font-weight: 600;
+            background: transparent;
+            color: var(--text-muted);
+            cursor: pointer;
+            transition: all var(--transition-speed);
+        }
+
+        .tab-btn.active {
+            background: var(--primary);
+            color: #ffffff;
+            box-shadow: var(--shadow-md);
+        }
+
+        /* DASHBOARD SPLIT-SCREEN WORKSPACE */
+        .workspace-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            align-items: start;
+        }
+
+        @media (max-width: 1200px) {
+            .workspace-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* PANEL CARD WRAPPERS */
+        .panel-card {
+            background: var(--bg-card);
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border-color);
+            box-shadow: var(--shadow-md);
+            padding: 25px;
+            margin-bottom: 25px;
+            transition: all var(--transition-speed);
+        }
+
+        .panel-card:hover {
+            box-shadow: var(--shadow-lg), var(--shadow-glow);
+        }
+
+        .panel-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--text-main);
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 12px;
+        }
+
+        /* COLLAPSIBLE ACCORDION CONTAINER FOR INPUT WIZARD */
+        .accordion-section {
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            margin-bottom: 15px;
+            overflow: hidden;
+            background: var(--bg-card);
+            transition: border-color 0.2s;
+        }
+
+        .accordion-header {
+            padding: 15px 20px;
+            background: var(--bg-app);
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+            user-select: none;
+            transition: background 0.2s;
+            border-bottom: 1px solid transparent;
+        }
+
+        .accordion-header:hover {
+            background: var(--primary-light);
+        }
+
+        .accordion-section.active {
+            border-color: var(--primary);
+        }
+
+        .accordion-section.active .accordion-header {
+            background: var(--primary-light);
+            color: var(--primary);
+            border-bottom-color: var(--border-color);
+        }
+
+        .accordion-body {
+            padding: 20px;
+            display: none;
+        }
+
+        .accordion-section.active .accordion-body {
+            display: block;
+        }
+
+        /* FORMS DESIGN */
+        .form-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .form-group {
+            flex: 1;
+            min-width: 180px;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .form-group.full-width {
+            flex: 0 0 100%;
+        }
+
+        label {
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--text-main);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        input[type="text"],
+        input[type="number"],
+        input[type="date"],
+        textarea,
+        select {
+            width: 100%;
+            padding: 10px 14px;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-sm);
+            background-color: var(--bg-input);
+            color: var(--text-main);
+            font-size: 14px;
+            transition: all 0.2s;
+            outline: none;
+        }
+
+        input:focus,
+        textarea:focus,
+        select:focus {
+            border-color: var(--border-focus);
+            background-color: var(--bg-input-focus);
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        /* PREMIUM DND LOGO FILE UPLOAD */
+        .dnd-upload-box {
+            border: 2px dashed var(--border-color);
+            border-radius: var(--radius-md);
+            padding: 20px;
+            text-align: center;
+            background: var(--bg-app);
+            cursor: pointer;
+            transition: all 0.2s;
+            position: relative;
+        }
+
+        .dnd-upload-box:hover {
+            border-color: var(--primary);
+            background: var(--primary-light);
+        }
+
+        .dnd-upload-box input[type="file"] {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            cursor: pointer;
+        }
+
+        .logo-preview-thumb {
+            max-width: 100px;
+            max-height: 60px;
+            margin: 10px auto 0;
+            display: none;
+            border-radius: 4px;
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .logo-preview-thumb img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        /* PRODUCT ROW AND EMPLOYEE ROW CARD STYLING */
+        .dynamic-item-card {
+            background: var(--bg-app);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            padding: 15px;
+            margin-bottom: 12px;
+            position: relative;
+            animation: slideIn 0.3s ease;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .dynamic-item-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+            padding-bottom: 8px;
+            border-bottom: 1px dashed var(--border-color);
+        }
+
+        .dynamic-item-title {
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .dynamic-controls {
+            display: flex;
+            gap: 6px;
+        }
+
+        /* BUTTONS STYLING */
+        button.btn {
+            padding: 10px 18px;
+            border: none;
+            border-radius: var(--radius-sm);
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: #ffffff;
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-hover);
+            transform: translateY(-1px);
+        }
+
+        .btn-success {
+            background: var(--success);
+            color: #ffffff;
+        }
+
+        .btn-success:hover {
+            background: #059669;
+            transform: translateY(-1px);
+        }
+
+        .btn-danger {
+            background: var(--danger);
+            color: #ffffff;
+        }
+
+        .btn-danger:hover {
+            background: #dc2626;
+        }
+
+        .btn-secondary {
+            background: var(--border-color);
+            color: var(--text-main);
+        }
+
+        .btn-secondary:hover {
+            background: #cbd5e1;
+        }
+
+        .btn-sm {
+            padding: 6px 12px;
+            font-size: 12px;
+        }
+
+        /* LIVE PREVIEW WRAPPER */
+        .preview-sticky-container {
+            position: sticky;
+            top: 30px;
+        }
+
+        .preview-toolbar {
+            background: var(--bg-card);
+            padding: 15px 20px;
+            border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+            border: 1px solid var(--border-color);
+            border-bottom: none;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        /* REAL-TIME PREVIEW CONTAINER CANVAS */
+        .preview-canvas-wrapper {
+            background: #e2e8f0;
+            border: 1px solid var(--border-color);
+            border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+            padding: 20px;
+            overflow: auto;
+            min-height: 600px;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            position: relative;
+        }
+
+        /* TARGET SHEETS (INVOICE & SALARY SHEET PREVIEWS) */
+        .invoice-sheet,
+        .salary-sheet-view {
+            background: #ffffff;
+            color: #000000;
+            width: 794px;
+            /* Exact A4 width at 96 DPI */
+            padding: 40px;
+            box-shadow: var(--shadow-lg);
+            position: relative;
+            transform-origin: top center;
+            transition: transform 0.2s;
+            box-sizing: border-box;
+            font-size: 11px !important;
+            line-height: 1.35;
+        }
+
+        .invoice-sheet {
+            min-height: 1123px;
+            /* Exact A4 height at 96 DPI */
+        }
+
+        .salary-sheet-view {
+            min-height: 520px;
+            margin-bottom: 25px;
+        }
+
+        /* MULTIPLE TEMPLATES THEME DESIGN STYLES */
+        .invoice-sheet.theme-slate {
+            --theme-color: #475569;
+            --theme-gradient: linear-gradient(135deg, #475569 0%, #1e293b 100%);
+            --theme-text-color: #ffffff;
+        }
+
+        .invoice-sheet.theme-indigo {
+            --theme-color: #4f46e5;
+            --theme-gradient: linear-gradient(135deg, #4f46e5 0%, #312e81 100%);
+            --theme-text-color: #ffffff;
+        }
+
+        .invoice-sheet.theme-emerald {
+            --theme-color: #059669;
+            --theme-gradient: linear-gradient(135deg, #059669 0%, #064e3b 100%);
+            --theme-text-color: #ffffff;
+        }
+
+        .invoice-sheet.theme-classic {
+            --theme-color: #000000;
+            --theme-gradient: linear-gradient(135deg, #000000 0%, #1e1e1e 100%);
+            --theme-text-color: #ffffff;
+        }
+
+        /* RENDERED STYLES FOR INVOICE SHEET */
+        .sheet-header-box {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            border-bottom: 2px solid var(--theme-color, #000);
+            padding-bottom: 15px;
+            margin-bottom: 15px;
+        }
+
+        .sheet-logo-brand {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .sheet-logo-placeholder {
+            width: 75px;
+            height: 75px;
+            background: #f1f5f9;
+            border: 2px dashed #cbd5e1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 9px;
+            color: #94a3b8;
+            border-radius: 6px;
+            text-align: center;
+            padding: 5px;
+        }
+
+        .sheet-logo-placeholder.has-logo {
+            border: none;
+            background: transparent;
+            padding: 0;
+        }
+
+        .sheet-logo-placeholder img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+
+        .sheet-brand-details h2 {
+            font-size: 18px;
+            font-weight: 800;
+            color: var(--theme-color, #000);
+        }
+
+        .sheet-brand-details p {
+            font-size: 10px;
+            color: #334155;
+            margin-top: 1px;
+        }
+
+        .sheet-meta-details {
+            text-align: right;
+            font-size: 10px;
+        }
+
+        .sheet-meta-details strong {
+            font-size: 12px;
+            color: var(--theme-color, #000);
+        }
+
+        .sheet-title-badge {
+            text-align: center;
+            font-size: 18px;
+            font-weight: 800;
+            letter-spacing: 2px;
+            padding: 6px;
+            background: var(--theme-gradient, #f1f5f9);
+            color: var(--theme-text-color, #ffffff);
+            margin: 15px 0;
+            border-radius: 4px;
+            text-transform: uppercase;
+        }
+
+        .sheet-classic-title {
+            text-align: center;
+            font-size: 20px;
+            font-weight: 800;
+            text-decoration: underline;
+            margin: 15px 0;
+        }
+
+        /* GRID STRUCTURE FOR MAIN FORM BLOCKS */
+        .sheet-grid-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 15px;
+        }
+
+        .sheet-grid-table td {
+            border: 1px solid #000000;
+            padding: 6px 8px;
+            vertical-align: top;
+            width: 33.33%;
+        }
+
+        .sheet-block-title {
+            font-weight: 700;
+            font-size: 9px;
+            text-transform: uppercase;
+            color: var(--theme-color, #000);
+            margin-bottom: 4px;
+            display: block;
+        }
+
+        .sheet-block-value {
+            font-size: 10px;
+            line-height: 1.3;
+        }
+
+        /* PRODUCTS TABLE IN SHEET */
+        .sheet-products-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 15px;
+        }
+
+        .sheet-products-table th,
+        .sheet-products-table td {
+            border: 1px solid #000000;
+            padding: 6px 8px;
+            text-align: left;
+        }
+
+        .sheet-products-table th {
+            background: #f1f5f9;
+            font-weight: 700;
+            text-transform: uppercase;
+            font-size: 9px;
+        }
+
+        .sheet-products-table .number-col {
+            font-family: var(--font-mono);
+            text-align: right;
+        }
+
+        .sheet-products-table .center-col {
+            text-align: center;
+        }
+
+        .sheet-total-row {
+            font-weight: 700;
+            background: #f8fafc;
+        }
+
+        /* AMOUNT IN WORDS BLOCK */
+        .sheet-words-block {
+            border: 1px solid #000;
+            border-bottom: none;
+            padding: 8px 12px;
+            background: #f8fafc;
+        }
+
+        .sheet-words-block .label {
+            font-weight: 700;
+            font-size: 9px;
+            text-transform: uppercase;
+            color: var(--theme-color, #000);
+        }
+
+        .sheet-words-block .value {
+            font-size: 11px;
+            font-weight: 700;
+            margin-top: 2px;
+        }
+
+        /* BANK AND TAX DETAIL BLOCK */
+        .sheet-finance-block {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 15px;
+        }
+
+        .sheet-finance-block td {
+            border: 1px solid #000000;
+            padding: 8px;
+            vertical-align: top;
+        }
+
+        .tax-breakdown-subtable {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .tax-breakdown-subtable td {
+            border: none !important;
+            padding: 3px 0 !important;
+            font-size: 10px;
+        }
+
+        .tax-breakdown-subtable tr:not(:last-child) {
+            border-bottom: 1px dashed #cbd5e1;
+        }
+
+        .tax-breakdown-subtable .total-line {
+            font-weight: 700;
+            border-top: 1px solid #000000 !important;
+            padding-top: 6px !important;
+        }
+
+        /* DECLARATION AND SIGNATURE */
+        .sheet-footer-block {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            margin-top: 30px;
+        }
+
+        .sheet-declaration {
+            width: 55%;
+            font-size: 9px;
+            color: #475569;
+            line-height: 1.3;
+        }
+
+        .sheet-signature-box {
+            width: 40%;
+            text-align: right;
+        }
+
+        .signature-line {
+            border-top: 1px solid #000000;
+            margin-top: 40px;
+            padding-top: 5px;
+            font-size: 10px;
+            text-align: center;
+        }
+
+        .sheet-computer-generated {
+            text-align: center;
+            font-size: 8px;
+            color: #64748b;
+            margin-top: 30px;
+            border-top: 1px solid #e2e8f0;
+            padding-top: 8px;
+            font-style: italic;
+        }
+
+        /* HISTORY MANAGER SECTION */
+        .history-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .history-item {
+            background: var(--bg-app);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            padding: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.2s;
+        }
+
+        .history-item:hover {
+            border-color: var(--primary);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .history-info h4 {
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--text-main);
+        }
+
+        .history-info p {
+            font-size: 12px;
+            color: var(--text-muted);
+            margin-top: 2px;
+        }
+
+        .history-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        /* IMPORTS & BULK TOOLS CSS */
+        .bulk-import-container {
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            background: var(--bg-app);
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+
+        /* PRINT MEDIA OVERLAY STYLES */
+        @media print {
+            @page {
+                size: auto;
+                margin: 0mm;
+            }
+
+            body {
+                margin: 0;
+                padding: 0 15mm !important;
+                background: #ffffff !important;
+            }
+
+            body * {
+                visibility: hidden;
+            }
+
+            #invoiceContainer,
+            #slipsWrapper,
+            #invoiceContainer *,
+            #slipsWrapper * {
+                visibility: visible;
+            }
+
+            .invoice-sheet {
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 100% !important;
+                height: auto !important;
+                transform: none !important;
+                margin: 0 !important;
+                padding: 30px !important;
+                box-shadow: none !important;
+                border: none !important;
+            }
+
+            .salary-sheet-view {
+                position: relative !important;
+                width: 100% !important;
+                min-height: 130mm !important;
+                height: 130mm !important;
+                transform: none !important;
+                margin: 10mm 0 0 0 !important;
+                padding: 30px !important;
+                box-shadow: none !important;
+                border: 1px solid #000000 !important;
+                box-sizing: border-box !important;
+                page-break-inside: avoid !important;
+            }
+
+            #slipsWrapper .salary-sheet-view:nth-child(even) {
+                page-break-after: always !important;
+            }
+
+            .app-container,
+            .workspace-grid,
+            .workspace-preview,
+            .preview-sticky-container,
+            .preview-canvas-wrapper {
+                visibility: visible !important;
+                display: block !important;
+                position: static !important;
+                padding: 0 !important;
+                margin: 0 !important;
+                border: none !important;
+                background: transparent !important;
+                box-shadow: none !important;
+                width: auto !important;
+                height: auto !important;
+            }
+
+            .app-header,
+            .tab-nav,
+            .workspace-inputs,
+            .preview-toolbar,
+            .theme-toggle-btn {
+                display: none !important;
+            }
+        }
+
+        /* PDF CUSTOM CLASS */
+        .pdf-render-mode {
+            position: absolute !important;
+            left: 0 !important;
+            top: 0 !important;
+            transform: none !important;
+            box-shadow: none !important;
+            border: none !important;
+            width: 190mm !important;
+            /* Proper Printable A4 Width */
+        }
+    </style>
+</head>
+
+<body>
+    <!-- App Header -->
+    <header class="app-header">
+        <div class="header-content">
+            <div class="logo-title-group">
+                <h1>OceanArc Exim Invoice & Salary Suite</h1>
+                <p>Enterprise Bill & Payroll Generator • Premium Edition</p>
+            </div>
+            <div class="header-controls">
+                <!-- Theme Toggle -->
+                <button class="theme-toggle-btn" id="themeToggleBtn" title="Toggle Theme">
+                    ☀️
+                </button>
+                <!-- Backup Tools -->
+                <button class="btn btn-secondary btn-sm" id="exportBackupBtn">Export Backup</button>
+                <button class="btn btn-secondary btn-sm" id="importBackupBtn"
+                    onclick="document.getElementById('backupFileInput').click()">Import Backup</button>
+                <input type="file" id="backupFileInput" class="hidden" accept=".json">
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content Container -->
+    <main class="app-container">
+        <!-- Tab Navigation -->
+        <nav class="tab-nav">
+            <button class="tab-btn active" onclick="switchSuiteTab('invoice')">Invoice Studio</button>
+            <button class="tab-btn" onclick="switchSuiteTab('salary')">Salary Payroll</button>
+            <button class="tab-btn" onclick="switchSuiteTab('history')">Suite Logs</button>
+        </nav>
+
+        <!-- Split Grid Workspace -->
+        <div class="workspace-grid">
+
+            <!-- LEFT PANEL: Dynamic Form Inputs -->
+            <div class="workspace-inputs">
+
+                <!-- 1. INVOICE FORM WIZARD -->
+                <div id="invoiceFormWizard" class="wizard-suite-view">
+                    <div class="panel-card">
+                        <div class="panel-title">
+                            📝 Invoice Form Data
+                        </div>
+
+                        <!-- Accordion 1: Company Profile -->
+                        <div class="accordion-section active">
+                            <div class="accordion-header" onclick="toggleAccordion(this)">
+                                <span>1. Company Profile</span>
+                                <span>▼</span>
+                            </div>
+                            <div class="accordion-body">
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="companyPreset">Select Company Preset</label>
+                                        <select id="companyPreset" onchange="loadPresetDetails(this.value)">
+                                            <option value="">Manual Input</option>
+                                            <option value="oceanarc" selected>OceanArc Exim</option>
+                                            <option value="artisanrings">ArtisanRings</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="companyName">Company Name</label>
+                                        <input type="text" id="companyName" placeholder="e.g. OceanArc Exim">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="gstNumber">GST Number</label>
+                                        <input type="text" id="gstNumber" placeholder="24XXXXX">
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="stateName">State Name</label>
+                                        <input type="text" id="stateName" value="Gujarat">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="stateCode">State Code</label>
+                                        <input type="text" id="stateCode" value="24">
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group full-width">
+                                        <label>Company Logo</label>
+                                        <div class="dnd-upload-box">
+                                            <p>Drag & Drop company logo here or click to browse</p>
+                                            <input type="file" id="logoUploadInput" accept="image/*"
+                                                onchange="uploadLogoFile(this)">
+                                            <div class="logo-preview-thumb" id="logoPreviewThumb"></div>
+                                        </div>
+                                        <div style="margin-top: 8px;">
+                                            <button type="button" class="btn btn-danger btn-sm" id="removeLogoBtn" onclick="removeCompanyLogo()" style="display: none;">Remove Logo</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Accordion 2: Consignee & Buyer -->
+                        <div class="accordion-section">
+                            <div class="accordion-header" onclick="toggleAccordion(this)">
+                                <span>2. Client & Delivery Details</span>
+                                <span>▼</span>
+                            </div>
+                            <div class="accordion-body">
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="consigneeName">Consignee Name (Ship To)</label>
+                                        <input type="text" id="consigneeName" placeholder="Recipient Name">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="consigneeState">Consignee State</label>
+                                        <input type="text" id="consigneeState" placeholder="Recipient State">
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="buyerName">Buyer Name (Bill To)</label>
+                                        <input type="text" id="buyerName" placeholder="Buyer Company/Name">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="buyerState">Buyer State</label>
+                                        <input type="text" id="buyerState" placeholder="Buyer State">
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group full-width">
+                                        <label for="buyerAddress">Buyer Address</label>
+                                        <textarea id="buyerAddress" placeholder="Enter complete address"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Accordion 3: Finance & Bank -->
+                        <div class="accordion-section">
+                            <div class="accordion-header" onclick="toggleAccordion(this)">
+                                <span>3. Finance & Taxes</span>
+                                <span>▼</span>
+                            </div>
+                            <div class="accordion-body">
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="bankName">Bank Name</label>
+                                        <input type="text" id="bankName" placeholder="e.g. State Bank of India">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="bankAccount">Account Number</label>
+                                        <input type="text" id="bankAccount" placeholder="Account Number">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="bankIFSC">IFSC Code</label>
+                                        <input type="text" id="bankIFSC" placeholder="IFSC Code">
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="taxType">GST Tax Type</label>
+                                        <select id="taxType" onchange="adjustTaxTypeView(this.value)">
+                                            <option value="cgst_sgst" selected>CGST + SGST (Local)</option>
+                                            <option value="igst">IGST (Out of State)</option>
+                                            <option value="exempt">GST Exempted</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group" id="cgstGroup">
+                                        <label for="cgstRate">CGST Rate %</label>
+                                        <input type="text" inputmode="decimal" id="cgstRate" value="1.5">
+                                    </div>
+                                    <div class="form-group" id="sgstGroup">
+                                        <label for="sgstRate">SGST Rate %</label>
+                                        <input type="text" inputmode="decimal" id="sgstRate" value="1.5">
+                                    </div>
+                                    <div class="form-group hidden" id="igstGroup">
+                                        <label for="igstRate">IGST Rate %</label>
+                                        <input type="text" inputmode="decimal" id="igstRate" value="3.0">
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="currencySelect">Invoice Currency</label>
+                                        <select id="currencySelect" onchange="triggerLiveUpdate()">
+                                            <option value="INR" selected>INR (₹)</option>
+                                            <option value="USD">USD ($)</option>
+                                            <option value="EUR">EUR (€)</option>
+                                            <option value="GBP">GBP (£)</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Accordion 4: Additional Metadata -->
+                        <div class="accordion-section">
+                            <div class="accordion-header" onclick="toggleAccordion(this)">
+                                <span>4. Shipping & Transport Fields</span>
+                                <span>▼</span>
+                            </div>
+                            <div class="accordion-body">
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="invoiceNumber">Invoice Number</label>
+                                        <input type="text" id="invoiceNumber" placeholder="INV-001">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="invoiceDate">Invoice Date</label>
+                                        <input type="date" id="invoiceDate">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="dated">Dated (Transport)</label>
+                                        <input type="date" id="dated">
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="buyersOrderNo">Buyer's Order No.</label>
+                                        <input type="text" id="buyersOrderNo">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="dispatchDocNo">Dispatch Doc No.</label>
+                                        <input type="text" id="dispatchDocNo">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="deliveryNoteDate">Delivery Note Date</label>
+                                        <input type="text" id="deliveryNoteDate" placeholder="DD-MMM-YYYY">
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="dispatchedThrough">Dispatched Through</label>
+                                        <input type="text" id="dispatchedThrough" placeholder="e.g. DHL, FedEx">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="vesselFlightNo">Vessel/Flight No.</label>
+                                        <input type="text" id="vesselFlightNo">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="cityPortLoading">Port of Loading</label>
+                                        <input type="text" id="cityPortLoading">
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="placeReceipt">Place of Receipt</label>
+                                        <input type="text" id="placeReceipt">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="cityPortDischarge">Port of Discharge</label>
+                                        <input type="text" id="cityPortDischarge">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="destination">Final Destination</label>
+                                        <input type="text" id="destination">
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="deliveryNote">Delivery Note Details</label>
+                                        <input type="text" id="deliveryNote">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="referenceNo">Reference No & Date</label>
+                                        <input type="text" id="referenceNo">
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="modePayment">Mode/Terms of Payment</label>
+                                        <input type="text" id="modePayment" placeholder="e.g. Net 30">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="otherReferences">Other References</label>
+                                        <input type="text" id="otherReferences">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="termsDelivery">Terms of Delivery</label>
+                                        <input type="text" id="termsDelivery">
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group full-width">
+                                        <label for="signatoryName">Authorised Signatory Name</label>
+                                        <input type="text" id="signatoryName"
+                                            placeholder="Signatory Name (Leave blank for default)">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Accordion 5: Products -->
+                        <div class="accordion-section">
+                            <div class="accordion-header" onclick="toggleAccordion(this)">
+                                <span>5. Invoice Line Items</span>
+                                <span>▼</span>
+                            </div>
+                            <div class="accordion-body">
+                                <div id="invoiceProductsContainer">
+                                    <!-- Dynamic Rows Loaded Here -->
+                                </div>
+                                <button class="btn btn-success btn-sm" onclick="addNewProductRowInput()"
+                                    style="margin-top: 10px;">+ Add Line Item</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Generate Actions -->
+                    <div class="panel-card" style="display: flex; gap: 15px; justify-content: flex-end;">
+                        <button class="btn btn-secondary" onclick="resetActiveForm('invoice')">Reset Data</button>
+                        <button class="btn btn-primary" onclick="saveToHistorySuite('invoice')">Save Logs</button>
+                    </div>
+                </div>
+
+                <!-- 2. SALARY FORM WIZARD -->
+                <div id="salaryFormWizard" class="wizard-suite-view hidden">
+                    <div class="panel-card">
+                        <div class="panel-title">
+                            💸 Salary slip Generator
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="salaryCompanyPreset">Company Preset</label>
+                                <select id="salaryCompanyPreset" onchange="loadSalaryPresetDetails(this.value)">
+                                    <option value="oceanarc" selected>OceanArc Exim</option>
+                                    <option value="artisanrings">ArtisanRings</option>
+                                    <option value="">Manual Entry</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="salaryCompanyName">Company Name</label>
+                                <input type="text" id="salaryCompanyName" value="OceanArc Exim">
+                            </div>
+                            <div class="form-group">
+                                <label for="monthYear">Salary Month & Year</label>
+                                <input type="text" id="monthYear" placeholder="e.g. November-2025">
+                            </div>
+                        </div>
+
+                        <!-- CSV Bulk Import Tool -->
+                        <div class="bulk-import-container">
+                            <label style="margin-bottom: 8px; display: block;">Bulk CSV Import</label>
+                            <textarea id="csvPasteArea"
+                                placeholder="empCode,empName,empDept,empDesig,basicSalary,secDep,secRet,withdraw"
+                                style="font-family: var(--font-mono); font-size: 11px; min-height: 80px;"></textarea>
+                            <div
+                                style="display:flex; justify-content:space-between; align-items:center; margin-top: 8px; flex-wrap: wrap; gap: 8px;">
+                                <small style="color: var(--text-muted);">Format:
+                                    Code,Name,Dept,Designation,Basic,Deposit,Return,Withdraw</small>
+                                <div style="display: flex; gap: 8px; align-items: center;">
+                                    <button class="btn btn-secondary btn-sm" onclick="downloadSampleCSV()">Download Sample CSV</button>
+                                    <button class="btn btn-secondary btn-sm" onclick="document.getElementById('csvFileInput').click()">Upload CSV File</button>
+                                    <input type="file" id="csvFileInput" class="hidden" accept=".csv" onchange="uploadCSVFile(this)">
+                                    <button class="btn btn-primary btn-sm" onclick="processBulkCSV()">Load CSV Data</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="panel-title"
+                            style="font-size: 15px; border-bottom: 1px dashed var(--border-color); padding-bottom: 8px;">
+                            Employees List
+                        </div>
+                        <div id="salaryEmployeesContainer" style="margin-top: 15px;">
+                            <!-- Dynamic Employee cards -->
+                        </div>
+                        <button class="btn btn-success btn-sm" onclick="addNewEmployeeRowInput()"
+                            style="margin-top: 10px;">+ Add Employee</button>
+                    </div>
+
+                    <!-- Generate Actions -->
+                    <div class="panel-card" style="display: flex; gap: 15px; justify-content: flex-end;">
+                        <button class="btn btn-secondary" onclick="resetActiveForm('salary')">Reset Data</button>
+                        <button class="btn btn-primary" onclick="saveToHistorySuite('salary')">Save Logs</button>
+                    </div>
+                </div>
+
+                <!-- 3. HISTORY MANAGER -->
+                <div id="historyLogsView" class="wizard-suite-view hidden">
+                    <div class="panel-card">
+                        <div class="panel-title">
+                            📂 Generated Logs History
+                        </div>
+                        <div class="history-list" id="historyListContainer">
+                            <!-- Injected history logs -->
+                            <p style="color: var(--text-muted); text-align: center; padding: 20px;">No historical logs
+                                found. Try saving your current invoice or slip details.</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- RIGHT PANEL: Sticky Live Preview Mockup -->
+            <div class="workspace-preview">
+                <div class="preview-sticky-container">
+
+                    <!-- Preview Settings Toolbar -->
+                    <div class="preview-toolbar">
+                        <div class="flex align-center gap-10">
+                            ☀️ <span style="font-weight: 700; font-size: 13px;">Live Document View</span>
+                        </div>
+                        <!-- Style Template Picker for Invoices -->
+                        <div class="flex align-center gap-10" id="previewThemeSelectorGroup">
+                            <label for="templateTheme" style="font-size: 11px;">Theme Preset:</label>
+                            <select id="templateTheme" onchange="changeInvoiceTheme(this.value)"
+                                style="width: 140px; padding: 6px;">
+                                <option value="slate" selected>Slate Corporate</option>
+                                <option value="indigo">Royal Indigo</option>
+                                <option value="emerald">Emerald Clean</option>
+                                <option value="classic">Retro Invoice</option>
+                            </select>
+                        </div>
+                        <div class="flex gap-10">
+                            <button class="btn btn-primary btn-sm" onclick="executePrintingSuite()">Print</button>
+                            <button class="btn btn-success btn-sm" id="exportPdfActionBtn"
+                                onclick="saveDocumentAsPDF()">Save PDF</button>
+                        </div>
+                    </div>
+
+                    <!-- Printable A4 Paper Preview -->
+                    <div class="preview-canvas-wrapper" id="previewCanvasWrapper">
+
+                        <!-- 1. INVOICE TARGET SHEET -->
+                        <div class="invoice-sheet theme-slate" id="invoiceContainer">
+
+                            <!-- Company Logo & Main Brand Info -->
+                            <div class="sheet-header-box">
+                                <div class="sheet-logo-brand">
+                                    <div class="sheet-logo-placeholder" id="sheetLogoBox">
+                                        Company Logo
+                                    </div>
+                                    <div class="sheet-brand-details">
+                                        <h2 id="previewCompanyName">OceanArc Exim</h2>
+                                        <p>State: <span id="previewStateName">Gujarat</span> (Code: <span
+                                                id="previewStateCode">24</span>)</p>
+                                        <p>GSTIN: <span id="previewGstNumber">-</span></p>
+                                    </div>
+                                </div>
+                                <div class="sheet-meta-details">
+                                    <div><strong>INVOICE NO.</strong></div>
+                                    <div id="previewInvoiceNum"
+                                        style="font-family: var(--font-mono); font-size: 13px; font-weight:700;">-</div>
+                                    <div style="margin-top: 5px;"><strong>DATED</strong></div>
+                                    <div id="previewInvoiceDate">-</div>
+                                </div>
+                            </div>
+
+                            <!-- Document Title banner -->
+                            <div id="previewInvoiceTitleBanner" class="sheet-title-badge">INVOICE</div>
+
+                            <!-- Meta Fields Grid table -->
+                            <table class="sheet-grid-table">
+                                <tr>
+                                    <td>
+                                        <span class="sheet-block-title">Consignee (Ship to)</span>
+                                        <div class="sheet-block-value">
+                                            <strong id="previewConsigneeName">-</strong><br>
+                                            State: <span id="previewConsigneeState">-</span>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <span class="sheet-block-title">Invoice No. & Date</span>
+                                        <div class="sheet-block-value">
+                                            No: <strong id="previewInvoiceNum2">-</strong><br>
+                                            Date: <span id="previewInvoiceDate2">-</span>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <span class="sheet-block-title">Dated</span>
+                                        <div class="sheet-block-value">
+                                            <span id="previewDatedVal">-</span>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <span class="sheet-block-title">Delivery Note</span>
+                                        <div class="sheet-block-value" id="previewDeliveryNote">-</div>
+                                    </td>
+                                    <td>
+                                        <span class="sheet-block-title">Mode/Terms of Payment</span>
+                                        <div class="sheet-block-value" id="previewModePayment">-</div>
+                                    </td>
+                                    <td>
+                                        <span class="sheet-block-title">Other References</span>
+                                        <div class="sheet-block-value" id="previewOtherReferences">-</div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <span class="sheet-block-title">Reference No & Date</span>
+                                        <div class="sheet-block-value" id="previewReferenceNo">-</div>
+                                    </td>
+                                    <td>
+                                        <span class="sheet-block-title">Buyer's Order No.</span>
+                                        <div class="sheet-block-value" id="previewBuyersOrderNo">-</div>
+                                    </td>
+                                    <td>
+                                        <span class="sheet-block-title">Dated</span>
+                                        <div class="sheet-block-value" id="previewDatedVal2">-</div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <span class="sheet-block-title">Dispatch Doc No.</span>
+                                        <div class="sheet-block-value" id="previewDispatchDocNo">-</div>
+                                    </td>
+                                    <td>
+                                        <span class="sheet-block-title">Delivery Note Date</span>
+                                        <div class="sheet-block-value" id="previewDeliveryNoteDate">-</div>
+                                    </td>
+                                    <td>
+                                        <span class="sheet-block-title">Dispatched through</span>
+                                        <div class="sheet-block-value" id="previewDispatchedThrough">-</div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <span class="sheet-block-title">Vessel/Flight No.</span>
+                                        <div class="sheet-block-value" id="previewVesselFlightNo">-</div>
+                                    </td>
+                                    <td>
+                                        <span class="sheet-block-title">Port of Loading</span>
+                                        <div class="sheet-block-value" id="previewPortLoading">-</div>
+                                    </td>
+                                    <td>
+                                        <span class="sheet-block-title">Place of Receipt</span>
+                                        <div class="sheet-block-value" id="previewPlaceReceipt">-</div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <span class="sheet-block-title">Port of Discharge</span>
+                                        <div class="sheet-block-value" id="previewPortDischarge">-</div>
+                                    </td>
+                                    <td>
+                                        <span class="sheet-block-title">Final Destination</span>
+                                        <div class="sheet-block-value" id="previewDestination">-</div>
+                                    </td>
+                                    <td>
+                                        <span class="sheet-block-title">Terms of Delivery</span>
+                                        <div class="sheet-block-value" id="previewTermsDelivery">-</div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="3">
+                                        <span class="sheet-block-title">Buyer (Bill to)</span>
+                                        <div class="sheet-block-value">
+                                            <strong id="previewBuyerName">-</strong>
+                                            <span id="previewBuyerAddress"
+                                                style="white-space: pre-wrap; display: block; margin: 3px 0;">-</span>
+                                            State: <span id="previewBuyerState">-</span>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+
+                            <!-- Products Line Items Table -->
+                            <table class="sheet-products-table">
+                                <thead>
+                                    <tr>
+                                        <th style="width: 5%;">No</th>
+                                        <th style="width: 40%;">Description of Goods</th>
+                                        <th style="width: 10%;" class="center-col">HSN/SAC</th>
+                                        <th style="width: 12%;" class="center-col">Quantity</th>
+                                        <th style="width: 12%;" class="number-col">Rate</th>
+                                        <th style="width: 8%;" class="center-col">per</th>
+                                        <th style="width: 8%;" class="center-col">Disc %</th>
+                                        <th style="width: 15%;" class="number-col">Amount</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="previewProductsBody">
+                                    <!-- Injected lines -->
+                                </tbody>
+                                <tfoot>
+                                    <tr class="sheet-total-row">
+                                        <td colspan="3">Total</td>
+                                        <td id="previewTotalQty" class="center-col">0</td>
+                                        <td colspan="3"></td>
+                                        <td id="previewTotalAmt" class="number-col">0.00</td>
+                                    </tr>
+                                </tfoot>
+                            </table>
+
+                            <!-- Amount in Words -->
+                            <div class="sheet-words-block">
+                                <div class="label">Amount Chargeable (in words)</div>
+                                <div class="value" id="previewWordsValue">Zero Rupees Only</div>
+                            </div>
+
+                            <!-- Financial Details & Tax Sub-tables -->
+                            <table class="sheet-finance-block">
+                                <tr>
+                                    <td style="width: 55%;">
+                                        <span class="sheet-block-title">Bank Details</span>
+                                        <div class="sheet-block-value">
+                                            <strong>Bank Name:</strong> <span id="previewBankName">-</span><br>
+                                            <strong>A/C No:</strong> <span id="previewBankAccount">-</span><br>
+                                            <strong>IFSC Code:</strong> <span id="previewBankIFSC">-</span>
+                                        </div>
+                                    </td>
+                                    <td style="width: 45%;">
+                                        <table class="tax-breakdown-subtable">
+                                            <tr>
+                                                <td>Subtotal before Tax:</td>
+                                                <td style="text-align: right; font-family: var(--font-mono);"
+                                                    id="previewTaxSubtotal">0.00</td>
+                                            </tr>
+                                            <!-- Dynamic GST rows will render here -->
+                                            <tr id="previewCgstRow">
+                                                <td>CGST (<span id="previewCgstRateVal">0</span>%):</td>
+                                                <td style="text-align: right; font-family: var(--font-mono);"
+                                                    id="previewCgstAmt">0.00</td>
+                                            </tr>
+                                            <tr id="previewSgstRow">
+                                                <td>SGST (<span id="previewSgstRateVal">0</span>%):</td>
+                                                <td style="text-align: right; font-family: var(--font-mono);"
+                                                    id="previewSgstAmt">0.00</td>
+                                            </tr>
+                                            <tr id="previewIgstRow" class="hidden">
+                                                <td>IGST (<span id="previewIgstRateVal">0</span>%):</td>
+                                                <td style="text-align: right; font-family: var(--font-mono);"
+                                                    id="previewIgstAmt">0.00</td>
+                                            </tr>
+                                            <tr id="previewTaxTotalRow">
+                                                <td>Total Tax Amount:</td>
+                                                <td style="text-align: right; font-family: var(--font-mono);"
+                                                    id="previewTaxTotalAmt">0.00</td>
+                                            </tr>
+                                            <tr class="total-line">
+                                                <td><strong>Total Payable:</strong></td>
+                                                <td style="text-align: right; font-family: var(--font-mono); font-weight: 700;"
+                                                    id="previewFinalPayable">0.00</td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                            </table>
+
+                            <!-- Signatures block -->
+                            <div class="sheet-footer-block">
+                                <div class="sheet-declaration">
+                                    <strong>Declaration:</strong><br>
+                                    We declare that this invoice shows the actual price of the goods described and that
+                                    all particulars are true and correct.
+                                </div>
+                                <div class="sheet-signature-box">
+                                    <div class="sheet-block-value" style="font-weight: 700;">
+                                        for <span id="previewSignatureCompany">Company Name</span>
+                                    </div>
+                                    <div class="signature-line" id="previewSignatureUser">
+                                        Authorised Signatory
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="sheet-computer-generated">
+                                This is a computer generated invoice. No signature required.
+                            </div>
+                        </div>
+
+                        <!-- 2. SALARY SLIPS TARGET SUITE wrapper -->
+                        <div id="slipsWrapper" class="hidden">
+                            <!-- Multi-page slips are injected here for preview/printing -->
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- Include external rendering modules -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+    <!-- App Logic Scripts -->
+    <script>
+        // GLOBAL STATE DATA UTILITIES
+        let logoImageBase64 = null;
+        let invoiceProducts = [];
+        let salaryEmployees = [];
+        let suiteHistory = [];
+
+        const LS_INVOICE_STATE = 'billv_invoice_state';
+        const LS_SALARY_STATE = 'billv_salary_state';
+        const LS_SUITE_HISTORY = 'billv_suite_history';
+        const LS_THEME = 'billv_theme_choice';
+
+        const PRESET_COMPANIES = {
+            oceanarc: {
+                companyName: 'OceanArc Exim',
+                gstNumber: '24ILAPD9761E1Z5',
+                bankName: 'PNB',
+                bankAccount: '9727002100003708',
+                bankIFSC: 'PUNB0972700',
+                stateName: 'Gujarat',
+                stateCode: '24',
+                logoPath: '/uploads/1773908785_oceanarc_logo.png'
+            },
+            artisanrings: {
+                companyName: 'ArtisanRings',
+                gstNumber: '24IRIPM1646D1ZU',
+                bankName: 'Kotak',
+                bankAccount: '9350605644',
+                bankIFSC: 'KKBK0002889',
+                stateName: 'Gujarat',
+                stateCode: '24',
+                logoPath: '/uploads/1773908780_Artisan_logo.png'
+            }
+        };
+
+        const CURRENCY_MAP = {
+            INR: { symbol: '₹', code: 'INR', name: 'Rupees', sub: 'Paise' },
+            USD: { symbol: '$', code: 'USD', name: 'Dollars', sub: 'Cents' },
+            EUR: { symbol: '€', code: 'EUR', name: 'Euros', sub: 'Cents' },
+            GBP: { symbol: '£', code: 'GBP', name: 'Pounds', sub: 'Pence' }
+        };
+
+        // ACCORDION TOGGLER LOGIC
+        function toggleAccordion(header) {
+            const section = header.parentElement;
+            const isActive = section.classList.contains('active');
+
+            // Close all within the parent wizard
+            const wizard = section.closest('.wizard-suite-view');
+            wizard.querySelectorAll('.accordion-section').forEach(s => s.classList.remove('active'));
+
+            if (!isActive) {
+                section.classList.add('active');
+            }
+        }
+
+        // DYNAMIC PREVIEW ADJUSTING SCALING
+        function adjustPreviewScale() {
+            const wrapper = document.getElementById('previewCanvasWrapper');
+            const sheet = document.getElementById('invoiceContainer');
+            const salaryWrapper = document.getElementById('slipsWrapper');
+
+            const activeSheet = sheet.classList.contains('hidden') ? salaryWrapper : sheet;
+            if (!wrapper || !activeSheet) return;
+
+            const padding = 40;
+            const containerWidth = wrapper.clientWidth - padding;
+            const baseA4Width = 794;
+
+            if (containerWidth < baseA4Width) {
+                const scale = containerWidth / baseA4Width;
+                activeSheet.style.transform = `scale(${scale})`;
+                activeSheet.style.transformOrigin = 'top center';
+
+                // Adjust wrap container height
+                const scaledHeight = activeSheet.scrollHeight * scale;
+                wrapper.style.height = `${scaledHeight + 40}px`;
+            } else {
+                activeSheet.style.transform = 'none';
+                wrapper.style.height = 'auto';
+            }
+        }
+
+        window.addEventListener('resize', adjustPreviewScale);
+
+        // THEME PICKER LOGIC
+        function initTheme() {
+            const savedTheme = localStorage.getItem(LS_THEME) || 'light';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+            document.getElementById('themeToggleBtn').innerHTML = savedTheme === 'dark' ? '🌙' : '☀️';
+
+            document.getElementById('themeToggleBtn').addEventListener('click', () => {
+                const currentTheme = document.documentElement.getAttribute('data-theme');
+                const nextTheme = currentTheme === 'dark' ? 'light' : 'dark';
+                document.documentElement.setAttribute('data-theme', nextTheme);
+                localStorage.setItem(LS_THEME, nextTheme);
+                document.getElementById('themeToggleBtn').innerHTML = nextTheme === 'dark' ? '🌙' : '☀️';
+            });
+        }
+
+        // TAX DROP-DOWN VIEW ADJUSTMENT
+        function adjustTaxTypeView(type) {
+            const cgst = document.getElementById('cgstGroup');
+            const sgst = document.getElementById('sgstGroup');
+            const igst = document.getElementById('igstGroup');
+
+            if (type === 'cgst_sgst') {
+                cgst.classList.remove('hidden');
+                sgst.classList.remove('hidden');
+                igst.classList.add('hidden');
+            } else if (type === 'igst') {
+                cgst.classList.add('hidden');
+                sgst.classList.add('hidden');
+                igst.classList.remove('hidden');
+            } else {
+                cgst.classList.add('hidden');
+                sgst.classList.add('hidden');
+                igst.classList.add('hidden');
+            }
+            triggerLiveUpdate();
+        }
+
+        // TAB SWITCHER SUITE LOGIC
+        function switchSuiteTab(tab) {
+            localStorage.setItem('billv_suite_tab', tab);
+
+            // Hide all wizards
+            document.querySelectorAll('.wizard-suite-view').forEach(w => w.classList.add('hidden'));
+
+            // Reset tab buttons
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            const activeTabBtn = Array.from(document.querySelectorAll('.tab-btn')).find(b => b.textContent.toLowerCase().includes(tab.slice(0, 4)));
+            if (activeTabBtn) activeTabBtn.classList.add('active');
+
+            // Hide right-side selectors
+            const themeSelector = document.getElementById('previewThemeSelectorGroup');
+            const previewInvoiceSheet = document.getElementById('invoiceContainer');
+            const previewSlipsWrapper = document.getElementById('slipsWrapper');
+
+            if (tab === 'invoice') {
+                document.getElementById('invoiceFormWizard').classList.remove('hidden');
+                themeSelector.classList.remove('hidden');
+                previewInvoiceSheet.classList.remove('hidden');
+                previewSlipsWrapper.classList.add('hidden');
+                triggerLiveUpdate();
+            } else if (tab === 'salary') {
+                document.getElementById('salaryFormWizard').classList.remove('hidden');
+                themeSelector.classList.add('hidden');
+                previewInvoiceSheet.classList.add('hidden');
+                previewSlipsWrapper.classList.remove('hidden');
+                triggerSalaryLiveUpdate();
+            } else if (tab === 'history') {
+                document.getElementById('historyLogsView').classList.remove('hidden');
+                themeSelector.classList.add('hidden');
+                // Keep active showing whatever was previous in background
+                renderHistorySuiteList();
+            }
+
+            setTimeout(adjustPreviewScale, 50);
+        }
+
+        // LOGO DRAG DROP & FILE UPLOADS
+        function syncLogoUI() {
+            const thumb = document.getElementById('logoPreviewThumb');
+            const removeBtn = document.getElementById('removeLogoBtn');
+            if (logoImageBase64) {
+                thumb.innerHTML = `<img src="${logoImageBase64}" alt="Thumb">`;
+                thumb.style.display = 'block';
+                if (removeBtn) removeBtn.style.display = 'inline-flex';
+            } else {
+                thumb.innerHTML = '';
+                thumb.style.display = 'none';
+                if (removeBtn) removeBtn.style.display = 'none';
+                document.getElementById('logoUploadInput').value = '';
+            }
+        }
+
+        function removeCompanyLogo() {
+            logoImageBase64 = null;
+            syncLogoUI();
+            triggerLiveUpdate();
+            saveCurrentSuiteState('invoice');
+        }
+
+        function uploadLogoFile(input) {
+            const file = input.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    const img = new Image();
+                    img.onload = function () {
+                        // Max logo dimensions
+                        const MAX_W = 300;
+                        const MAX_H = 300;
+                        let w = img.width;
+                        let h = img.height;
+
+                        if (w > h) {
+                            if (w > MAX_W) { h *= MAX_W / w; w = MAX_W; }
+                        } else {
+                            if (h > MAX_H) { w *= MAX_H / h; h = MAX_H; }
+                        }
+
+                        const canvas = document.createElement('canvas');
+                        canvas.width = w;
+                        canvas.height = h;
+                        const ctx = canvas.getContext('2d');
+                        ctx.drawImage(img, 0, 0, w, h);
+
+                        logoImageBase64 = canvas.toDataURL('image/jpeg', 0.85);
+                        syncLogoUI();
+                        triggerLiveUpdate();
+                    };
+                    img.src = e.target.result;
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        // PRESETS MANAGEMENT
+        function loadPresetDetails(presetKey) {
+            const preset = PRESET_COMPANIES[presetKey];
+            if (!preset) return;
+
+            document.getElementById('companyName').value = preset.companyName;
+            document.getElementById('gstNumber').value = preset.gstNumber;
+            document.getElementById('stateName').value = preset.stateName;
+            document.getElementById('stateCode').value = preset.stateCode;
+            document.getElementById('bankName').value = preset.bankName;
+            document.getElementById('bankAccount').value = preset.bankAccount;
+            document.getElementById('bankIFSC').value = preset.bankIFSC;
+
+            logoImageBase64 = preset.logoPath || null;
+            syncLogoUI();
+            triggerLiveUpdate();
+        }
+
+        function loadSalaryPresetDetails(presetKey) {
+            const preset = PRESET_COMPANIES[presetKey];
+            if (!preset) return;
+            document.getElementById('salaryCompanyName').value = preset.companyName;
+            triggerSalaryLiveUpdate();
+        }
+
+        // INITIALIZE DATE HELPERS
+        function getIsoTodayString() {
+            const d = new Date();
+            return d.toISOString().split('T')[0];
+        }
+
+        function getPreviousMonthYearString() {
+            const date = new Date();
+            date.setMonth(date.getMonth() - 1);
+            const months = [
+                "January", "February", "March", "April", "May", "June",
+                "July", "August", "September", "October", "November", "December"
+            ];
+            return `${months[date.getMonth()]}-${date.getFullYear()}`;
+        }
+
+        function formatDisplayDate(dateStr) {
+            if (!dateStr) return '-';
+            try {
+                const date = new Date(dateStr);
+                if (isNaN(date.getTime())) return dateStr;
+                const d = String(date.getDate()).padStart(2, '0');
+                const m = date.toLocaleString('en-US', { month: 'short' });
+                const y = String(date.getFullYear()).slice(-2);
+                return `${d}-${m}-${y}`;
+            } catch (e) {
+                return dateStr;
+            }
+        }
+
+        // INVOICE DYNAMIC PRODUCTS MANAGEMENT
+        function addNewProductRowInput(data = {}) {
+            const index = invoiceProducts.length;
+            const container = document.getElementById('invoiceProductsContainer');
+            const card = document.createElement('div');
+            card.className = 'dynamic-item-card';
+            card.setAttribute('data-index', index);
+
+            card.innerHTML = `
+                <div class="dynamic-item-header">
+                    <span class="dynamic-item-title">Product Line Item #${index + 1}</span>
+                    <div class="dynamic-controls">
+                        <button class="btn btn-secondary btn-sm" onclick="moveProductItem(${index}, -1)" title="Move Up">▲</button>
+                        <button class="btn btn-secondary btn-sm" onclick="moveProductItem(${index}, 1)" title="Move Down">▼</button>
+                        <button class="btn btn-danger btn-sm" onclick="removeProductItem(${index})" title="Delete">🗑️</button>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group" style="flex: 2;">
+                        <label>Description of Goods</label>
+                        <input type="text" class="prod-desc" value="${data.desc || ''}" placeholder="e.g. Diamond Ring" oninput="saveAndSyncProducts()">
+                    </div>
+                    <div class="form-group">
+                        <label>HSN/SAC Code</label>
+                        <input type="text" class="prod-hsn" value="${data.hsn || ''}" placeholder="e.g. 7117" oninput="saveAndSyncProducts()">
+                    </div>
+                    <div class="form-group">
+                        <label>Quantity</label>
+                        <input type="text" class="prod-qty" value="${data.qty || ''}" placeholder="e.g. 1 PIECE" oninput="saveAndSyncProducts()">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Rate (GST Included)</label>
+                        <input type="text" inputmode="decimal" class="prod-rate" value="${data.rate !== undefined ? data.rate : ''}" placeholder="0.00" oninput="saveAndSyncProducts()">
+                    </div>
+                    <div class="form-group">
+                        <label>Unit Per</label>
+                        <input type="text" class="prod-unit" value="${data.unit || 'PIECE'}" placeholder="e.g. PIECE" oninput="saveAndSyncProducts()">
+                    </div>
+                    <div class="form-group">
+                        <label>Discount %</label>
+                        <input type="text" inputmode="decimal" class="prod-discount" value="${data.discount !== undefined ? data.discount : ''}" placeholder="0" oninput="saveAndSyncProducts()">
+                    </div>
+                    <div class="form-group">
+                        <label>Total Amount (GST Incl)</label>
+                        <input type="text" class="prod-amount" value="0.00" readonly style="background-color: var(--bg-app); font-weight:700;">
+                    </div>
+                </div>
+            `;
+            container.appendChild(card);
+            invoiceProducts.push(card);
+
+            saveAndSyncProducts();
+        }
+
+        function removeProductItem(idx) {
+            const container = document.getElementById('invoiceProductsContainer');
+            const items = Array.from(container.children);
+            if (items.length <= 1) {
+                alert("An invoice must contain at least one line item.");
+                return;
+            }
+            items[idx].remove();
+
+            // Re-map internal array
+            invoiceProducts = Array.from(container.children);
+            reindexProductCards();
+            saveAndSyncProducts();
+        }
+
+        function reindexProductCards() {
+            invoiceProducts.forEach((card, idx) => {
+                card.setAttribute('data-index', idx);
+                card.querySelector('.dynamic-item-title').textContent = `Product Line Item #${idx + 1}`;
+
+                // Re-wire controls
+                const ctrls = card.querySelector('.dynamic-controls');
+                ctrls.innerHTML = `
+                    <button class="btn btn-secondary btn-sm" onclick="moveProductItem(${idx}, -1)" title="Move Up">▲</button>
+                    <button class="btn btn-secondary btn-sm" onclick="moveProductItem(${idx}, 1)" title="Move Down">▼</button>
+                    <button class="btn btn-danger btn-sm" onclick="removeProductItem(${idx})" title="Delete">🗑️</button>
+                `;
+            });
+        }
+
+        function moveProductItem(idx, direction) {
+            const container = document.getElementById('invoiceProductsContainer');
+            const items = Array.from(container.children);
+            const targetIdx = idx + direction;
+            if (targetIdx < 0 || targetIdx >= items.length) return;
+
+            // Swap in DOM
+            if (direction === -1) {
+                container.insertBefore(items[idx], items[targetIdx]);
+            } else {
+                container.insertBefore(items[targetIdx], items[idx]);
+            }
+
+            // Sync array and indices
+            invoiceProducts = Array.from(container.children);
+            reindexProductCards();
+            saveAndSyncProducts();
+        }
+
+        function saveAndSyncProducts() {
+            // Recalculate row amounts
+            invoiceProducts.forEach(card => {
+                const rate = parseFloat(card.querySelector('.prod-rate').value) || 0;
+                const disc = parseFloat(card.querySelector('.prod-discount').value) || 0;
+                const amt = rate - (rate * disc / 100);
+                card.querySelector('.prod-amount').value = amt.toFixed(2);
+            });
+
+            triggerLiveUpdate();
+            saveCurrentSuiteState('invoice');
+        }
+
+        // SALARY DYNAMIC EMPLOYEE ROW WIZARDS
+        function addNewEmployeeRowInput(data = {}) {
+            const index = salaryEmployees.length;
+            const container = document.getElementById('salaryEmployeesContainer');
+            const card = document.createElement('div');
+            card.className = 'dynamic-item-card';
+            card.setAttribute('data-index', index);
+
+            card.innerHTML = `
+                <div class="dynamic-item-header">
+                    <span class="dynamic-item-title">Employee Row #${index + 1}</span>
+                    <button class="btn btn-danger btn-sm" onclick="removeEmployeeItem(${index})">🗑️ Delete</button>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Employee Code</label>
+                        <input type="text" class="emp-code" value="${data.code || 'Empcode' + (index + 1)}" oninput="triggerSalaryLiveUpdate()">
+                    </div>
+                    <div class="form-group">
+                        <label>Employee Name</label>
+                        <input type="text" class="emp-name" value="${data.name || ''}" placeholder="Employee Name" oninput="triggerSalaryLiveUpdate()">
+                    </div>
+                    <div class="form-group">
+                        <label>Department</label>
+                        <input type="text" class="emp-dept" value="${data.dept || 'Sales & Marketing'}" placeholder="e.g. Sales & Marketing" oninput="triggerSalaryLiveUpdate()">
+                    </div>
+                    <div class="form-group">
+                        <label>Designation</label>
+                        <input type="text" class="emp-desig" value="${data.desig || 'Sales Executive'}" placeholder="e.g. Sales Executive" oninput="triggerSalaryLiveUpdate()">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Basic Salary (₹)</label>
+                        <input type="text" inputmode="decimal" class="emp-basic" value="${data.basic !== undefined ? data.basic : ''}" placeholder="0.00" oninput="triggerSalaryLiveUpdate()">
+                    </div>
+                    <div class="form-group">
+                        <label>Security Deposit (₹)</label>
+                        <input type="text" inputmode="decimal" class="emp-sec-dep" value="${data.secDep !== undefined ? data.secDep : ''}" placeholder="0.00" oninput="triggerSalaryLiveUpdate()">
+                    </div>
+                    <div class="form-group">
+                        <label>Security Return (₹)</label>
+                        <input type="text" inputmode="decimal" class="emp-sec-ret" value="${data.secRet !== undefined ? data.secRet : ''}" placeholder="0.00" oninput="triggerSalaryLiveUpdate()">
+                    </div>
+                    <div class="form-group">
+                        <label>Withdrawal (₹)</label>
+                        <input type="text" inputmode="decimal" class="emp-withdraw" value="${data.withdraw !== undefined ? data.withdraw : ''}" placeholder="0.00" oninput="triggerSalaryLiveUpdate()">
+                    </div>
+                </div>
+            `;
+            container.appendChild(card);
+            salaryEmployees.push(card);
+
+            triggerSalaryLiveUpdate();
+            saveCurrentSuiteState('salary');
+        }
+
+        function removeEmployeeItem(idx) {
+            const container = document.getElementById('salaryEmployeesContainer');
+            const items = Array.from(container.children);
+            if (items.length <= 1) {
+                alert("You need at least one employee in the payroll slip.");
+                return;
+            }
+            items[idx].remove();
+            salaryEmployees = Array.from(container.children);
+
+            // Re-index
+            salaryEmployees.forEach((card, i) => {
+                card.setAttribute('data-index', i);
+                card.querySelector('.dynamic-item-title').textContent = `Employee Row #${i + 1}`;
+                card.querySelector('.btn-danger').setAttribute('onclick', `removeEmployeeItem(${i})`);
+            });
+
+            triggerSalaryLiveUpdate();
+            saveCurrentSuiteState('salary');
+        }
+
+        // REAL-TIME INVOICE CALCULATOR & RENDERER
+        function triggerLiveUpdate() {
+            // Basic fields mapping
+            const companyName = document.getElementById('companyName').value || 'Company Name';
+            const gstNumber = document.getElementById('gstNumber').value || '-';
+            const stateName = document.getElementById('stateName').value || 'State';
+            const stateCode = document.getElementById('stateCode').value || 'Code';
+
+            document.getElementById('previewCompanyName').textContent = companyName;
+            document.getElementById('previewGstNumber').textContent = gstNumber;
+            document.getElementById('previewStateName').textContent = stateName;
+            document.getElementById('previewStateCode').textContent = stateCode;
+
+            // Invoice specifics
+            const invNum = document.getElementById('invoiceNumber').value || '-';
+            const invDate = document.getElementById('invoiceDate').value;
+            const displayDate = formatDisplayDate(invDate);
+
+            document.getElementById('previewInvoiceNum').textContent = invNum;
+            document.getElementById('previewInvoiceNum2').textContent = invNum;
+            document.getElementById('previewInvoiceDate').textContent = displayDate;
+            document.getElementById('previewInvoiceDate2').textContent = displayDate;
+
+            // Address & client details
+            document.getElementById('previewConsigneeName').textContent = document.getElementById('consigneeName').value || '-';
+            document.getElementById('previewConsigneeState').textContent = document.getElementById('consigneeState').value || '-';
+            document.getElementById('previewBuyerName').textContent = document.getElementById('buyerName').value || '-';
+            document.getElementById('previewBuyerState').textContent = document.getElementById('buyerState').value || '-';
+            document.getElementById('previewBuyerAddress').textContent = document.getElementById('buyerAddress').value || '-';
+
+            // Additional Transport details
+            document.getElementById('previewDeliveryNote').textContent = document.getElementById('deliveryNote').value || '-';
+            document.getElementById('previewModePayment').textContent = document.getElementById('modePayment').value || '-';
+            document.getElementById('previewOtherReferences').textContent = document.getElementById('otherReferences').value || '-';
+            document.getElementById('previewReferenceNo').textContent = document.getElementById('referenceNo').value || '-';
+            document.getElementById('previewBuyersOrderNo').textContent = document.getElementById('buyersOrderNo').value || '-';
+            const transportDate = document.getElementById('dated').value;
+            const displayTransportDate = formatDisplayDate(transportDate);
+            document.getElementById('previewDatedVal').textContent = displayTransportDate;
+            document.getElementById('previewDatedVal2').textContent = displayTransportDate;
+            document.getElementById('previewDispatchDocNo').textContent = document.getElementById('dispatchDocNo').value || '-';
+            document.getElementById('previewDeliveryNoteDate').textContent = document.getElementById('deliveryNoteDate').value || '-';
+            document.getElementById('previewDispatchedThrough').textContent = document.getElementById('dispatchedThrough').value || '-';
+            document.getElementById('previewVesselFlightNo').textContent = document.getElementById('vesselFlightNo').value || '-';
+            document.getElementById('previewPortLoading').textContent = document.getElementById('cityPortLoading').value || '-';
+            document.getElementById('previewPlaceReceipt').textContent = document.getElementById('placeReceipt').value || '-';
+            document.getElementById('previewPortDischarge').textContent = document.getElementById('cityPortDischarge').value || '-';
+            document.getElementById('previewDestination').textContent = document.getElementById('destination').value || '-';
+            document.getElementById('previewTermsDelivery').textContent = document.getElementById('termsDelivery').value || '-';
+
+            // Bank details
+            document.getElementById('previewBankName').textContent = document.getElementById('bankName').value || '-';
+            document.getElementById('previewBankAccount').textContent = document.getElementById('bankAccount').value || '-';
+            document.getElementById('previewBankIFSC').textContent = document.getElementById('bankIFSC').value || '-';
+
+            // Signatory details
+            const sigName = document.getElementById('signatoryName').value || '';
+            document.getElementById('previewSignatureCompany').textContent = companyName;
+            document.getElementById('previewSignatureUser').innerHTML = sigName.trim() !== '' ? sigName : 'Authorised Signatory';
+
+            // Logo injection
+            const logoBox = document.getElementById('sheetLogoBox');
+            if (logoImageBase64) {
+                logoBox.innerHTML = `<img src="${logoImageBase64}" alt="Logo">`;
+                logoBox.classList.add('has-logo');
+            } else {
+                logoBox.innerHTML = 'Company Logo';
+                logoBox.classList.remove('has-logo');
+            }
+
+            // Products list rebuild
+            const tableBody = document.getElementById('previewProductsBody');
+            tableBody.innerHTML = '';
+
+            let subtotalInclTax = 0;
+            let totalQtyCount = 0;
+            const currency = document.getElementById('currencySelect').value;
+            const symbol = CURRENCY_MAP[currency].symbol;
+
+            invoiceProducts.forEach((card, index) => {
+                const desc = card.querySelector('.prod-desc').value || '-';
+                const hsn = card.querySelector('.prod-hsn').value || '-';
+                const qtyStr = card.querySelector('.prod-qty').value || '-';
+                const rate = parseFloat(card.querySelector('.prod-rate').value) || 0;
+                const unit = card.querySelector('.prod-unit').value || '';
+                const disc = parseFloat(card.querySelector('.prod-discount').value) || 0;
+
+                const finalRowAmt = rate - (rate * disc / 100);
+                subtotalInclTax += finalRowAmt;
+
+                // Try parse numeric quantity count for total summation
+                const parsedQty = parseFloat(qtyStr);
+                if (!isNaN(parsedQty)) totalQtyCount += parsedQty;
+
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td class="center-col">${index + 1}</td>
+                    <td><strong>${desc}</strong></td>
+                    <td class="center-col">${hsn}</td>
+                    <td class="center-col">${qtyStr}</td>
+                    <td class="number-col">${symbol}${formatDisplayNumber(rate)}</td>
+                    <td class="center-col">${unit}</td>
+                    <td class="center-col">${disc > 0 ? disc + '%' : '-'}</td>
+                    <td class="number-col">${symbol}${formatDisplayNumber(finalRowAmt)}</td>
+                `;
+                tableBody.appendChild(tr);
+            });
+
+            // Taxes and subtotal calculation
+            const taxType = document.getElementById('taxType').value;
+            let cgstRate = 0, sgstRate = 0, igstRate = 0;
+
+            if (taxType === 'cgst_sgst') {
+                const cgstVal = document.getElementById('cgstRate').value;
+                const sgstVal = document.getElementById('sgstRate').value;
+                cgstRate = (cgstVal === '' || cgstVal === null) ? 0 : (parseFloat(cgstVal) || 0);
+                sgstRate = (sgstVal === '' || sgstVal === null) ? 0 : (parseFloat(sgstVal) || 0);
+            } else if (taxType === 'igst') {
+                const igstVal = document.getElementById('igstRate').value;
+                igstRate = (igstVal === '' || igstVal === null) ? 0 : (parseFloat(igstVal) || 0);
+            }
+
+            const totalGSTRate = cgstRate + sgstRate + igstRate;
+            const amountBeforeTax = subtotalInclTax / (1 + totalGSTRate / 100);
+
+            // Compute tax shares
+            const cgstAmt = (amountBeforeTax * cgstRate) / 100;
+            const sgstAmt = (amountBeforeTax * sgstRate) / 100;
+            const igstAmt = (amountBeforeTax * igstRate) / 100;
+            const totalTaxAmount = cgstAmt + sgstAmt + igstAmt;
+
+            // Render sub totals
+            document.getElementById('previewTotalQty').textContent = totalQtyCount > 0 ? totalQtyCount : invoiceProducts.length + ' Item(s)';
+            document.getElementById('previewTotalAmt').textContent = symbol + formatDisplayNumber(subtotalInclTax);
+
+            document.getElementById('previewTaxSubtotal').textContent = symbol + formatDisplayNumber(amountBeforeTax);
+            document.getElementById('previewTaxTotalAmt').textContent = symbol + formatDisplayNumber(totalTaxAmount);
+            document.getElementById('previewFinalPayable').textContent = symbol + formatDisplayNumber(subtotalInclTax);
+
+            // Render exact tax type rows
+            const cgstRow = document.getElementById('previewCgstRow');
+            const sgstRow = document.getElementById('previewSgstRow');
+            const igstRow = document.getElementById('previewIgstRow');
+
+            if (taxType === 'cgst_sgst') {
+                cgstRow.classList.remove('hidden');
+                sgstRow.classList.remove('hidden');
+                igstRow.classList.add('hidden');
+                document.getElementById('previewCgstRateVal').textContent = cgstRate;
+                document.getElementById('previewCgstAmt').textContent = symbol + formatDisplayNumber(cgstAmt);
+                document.getElementById('previewSgstRateVal').textContent = sgstRate;
+                document.getElementById('previewSgstAmt').textContent = symbol + formatDisplayNumber(sgstAmt);
+            } else if (taxType === 'igst') {
+                cgstRow.classList.add('hidden');
+                sgstRow.classList.add('hidden');
+                igstRow.classList.remove('hidden');
+                document.getElementById('previewIgstRateVal').textContent = igstRate;
+                document.getElementById('previewIgstAmt').textContent = symbol + formatDisplayNumber(igstAmt);
+            } else {
+                cgstRow.classList.add('hidden');
+                sgstRow.classList.add('hidden');
+                igstRow.classList.add('hidden');
+                document.getElementById('previewTaxTotalRow').previousElementSibling.innerHTML = `<td colspan="2" style="font-style:italic; color:var(--danger)">No tax rates applied (GST Exempt)</td>`;
+            }
+
+            // Word generator injection
+            document.getElementById('previewWordsValue').textContent = numberToWords(subtotalInclTax, currency);
+
+            adjustPreviewScale();
+        }
+
+        // SALARY LIVE UPDATING INTERACTION
+        function triggerSalaryLiveUpdate() {
+            const companyName = document.getElementById('salaryCompanyName').value || 'OceanArc Exim';
+            const monthYear = document.getElementById('monthYear').value || 'Month-Year';
+
+            const slipsContainer = document.getElementById('slipsWrapper');
+            slipsContainer.innerHTML = '';
+
+            salaryEmployees.forEach((card, index) => {
+                const code = card.querySelector('.emp-code').value || `Empcode${index + 1}`;
+                const name = card.querySelector('.emp-name').value || `Employee ${index + 1}`;
+                const dept = card.querySelector('.emp-dept').value || 'Logistics';
+                const desig = card.querySelector('.emp-desig').value || 'Associate';
+
+                const basic = parseFloat(card.querySelector('.emp-basic').value) || 0;
+                const secDep = parseFloat(card.querySelector('.emp-sec-dep').value) || 0;
+                const secRet = parseFloat(card.querySelector('.emp-sec-ret').value) || 0;
+                const withdraw = parseFloat(card.querySelector('.emp-withdraw').value) || 0;
+
+                const earnings = basic + secDep + secRet;
+                const netPay = earnings - withdraw;
+
+                const slipHtml = `
+                    <div class="salary-sheet-view" style="margin-bottom: 30px; box-sizing: border-box; background:#ffffff; color:#000000; border:1px solid #94a3b8;">
+                        <div style="display:flex; justify-content:space-between; align-items:flex-end; border-bottom: 2px solid #000; padding-bottom:10px; margin-bottom: 15px;">
+                            <h2 style="font-size: 16px; font-weight:800; text-transform:uppercase;">${companyName}</h2>
+                            <div style="font-size: 11px; font-weight:700;">PAY SLIP FOR THE MONTH OF ${monthYear.toUpperCase()}</div>
+                        </div>
+
+                        <!-- Info Grid -->
+                        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px; font-size:11px; margin-bottom:15px;">
+                            <div>
+                                <div><strong>Emp Code:</strong> <span style="margin-left: 10px;">${code}</span></div>
+                                <div style="margin-top:4px;"><strong>Department:</strong> <span style="margin-left: 10px;">${dept}</span></div>
+                            </div>
+                            <div>
+                                <div><strong>Employee Name:</strong> <span style="margin-left: 10px;">${name}</span></div>
+                                <div style="margin-top:4px;"><strong>Designation:</strong> <span style="margin-left: 10px;">${desig}</span></div>
+                            </div>
+                        </div>
+
+                        <!-- Calculations Table -->
+                        <table style="width:100%; border-collapse:collapse; font-size:11px; border:1px solid #000; margin-bottom:20px;">
+                            <thead>
+                                <tr style="background:#f1f5f9;">
+                                    <th style="border:1px solid #000; padding:6px 10px; text-align:left;">Description of Earning / Deduction</th>
+                                    <th style="border:1px solid #000; padding:6px 10px; text-align:right; width:35%;">Amount (₹)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td style="border:1px solid #000; padding:5px 10px;">Basic Salary</td>
+                                    <td style="border:1px solid #000; padding:5px 10px; text-align:right; font-family:var(--font-mono);">${formatDisplayNumber(basic)}</td>
+                                </tr>
+                                <tr>
+                                    <td style="border:1px solid #000; padding:5px 10px;">Security Deposit</td>
+                                    <td style="border:1px solid #000; padding:5px 10px; text-align:right; font-family:var(--font-mono);">${formatDisplayNumber(secDep)}</td>
+                                </tr>
+                                <tr>
+                                    <td style="border:1px solid #000; padding:5px 10px;">Security Deposit Return</td>
+                                    <td style="border:1px solid #000; padding:5px 10px; text-align:right; font-family:var(--font-mono);">${formatDisplayNumber(secRet)}</td>
+                                </tr>
+                                <tr style="color:#ef4444;">
+                                    <td style="border:1px solid #000; padding:5px 10px;">Withdrawal (-)</td>
+                                    <td style="border:1px solid #000; padding:5px 10px; text-align:right; font-family:var(--font-mono);">${formatDisplayNumber(withdraw)}</td>
+                                </tr>
+                            </tbody>
+                            <tfoot>
+                                <tr style="font-weight:700; background:#f8fafc;">
+                                    <td style="border:1px solid #000; padding:6px 10px;">Total Earning</td>
+                                    <td style="border:1px solid #000; padding:6px 10px; text-align:right; font-family:var(--font-mono);">${formatDisplayNumber(earnings)}</td>
+                                </tr>
+                                <tr style="font-weight:700; background:#e2e8f0;">
+                                    <td style="border:1px solid #000; padding:6px 10px;">Net Payable</td>
+                                    <td style="border:1px solid #000; padding:6px 10px; text-align:right; font-family:var(--font-mono);">${formatDisplayNumber(netPay)}</td>
+                                </tr>
+                            </tfoot>
+                        </table>
+
+                        <!-- Footnotes -->
+                        <div style="display:flex; justify-content:space-between; align-items:flex-end; margin-top:35px;">
+                            <div style="font-size:9px; color:#475569;">
+                                This is a computer generated pay slip. Does not require physical signature.
+                            </div>
+                            <div style="text-align:right; font-size:11px;">
+                                <div style="margin-bottom:30px;">Authorised Signatory</div>
+                                <div style="border-top:1px solid #000; width:150px;"></div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                slipsContainer.insertAdjacentHTML('beforeend', slipHtml);
+            });
+
+            adjustPreviewScale();
+        }
+
+        // TEMPLATE THEME TWEAKER
+        function changeInvoiceTheme(theme) {
+            const sheet = document.getElementById('invoiceContainer');
+            sheet.className = `invoice-sheet theme-${theme}`;
+
+            // Adjust title styling based on theme
+            const titleBanner = document.getElementById('previewInvoiceTitleBanner');
+            if (theme === 'classic') {
+                titleBanner.className = 'sheet-classic-title';
+                titleBanner.textContent = 'INVOICE';
+            } else {
+                titleBanner.className = 'sheet-title-badge';
+                titleBanner.textContent = 'Invoice';
+            }
+            saveCurrentSuiteState('invoice');
+        }
+
+        // NUMBER TO WORDS CONVERTER
+        function numberToWords(num, currency = 'INR') {
+            if (num === 0) {
+                const names = { INR: 'Rupees', USD: 'Dollars', EUR: 'Euros', GBP: 'Pounds' };
+                return `${currency} Zero ${names[currency] || 'Only'}`;
+            }
+
+            const ones = ['', 'One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine'];
+            const teens = ['Ten', 'Eleven', 'Twelve', 'Thirteen', 'Fourteen', 'Fifteen', 'Sixteen', 'Seventeen', 'Eighteen', 'Nineteen'];
+            const tens = ['', '', 'Twenty', 'Thirty', 'Forty', 'Fifty', 'Sixty', 'Seventy', 'Eighty', 'Ninety'];
+
+            let integersVal = Math.floor(num);
+            let decimalsVal = Math.round((num % 1) * 100);
+
+            let words = '';
+
+            if (currency === 'INR') {
+                // Indian numbering scale (Crores, Lakhs, Thousands, Hundreds)
+                if (integersVal >= 10000000) {
+                    words += parseHundredsBlock(Math.floor(integersVal / 10000000)) + ' Crore ';
+                    integersVal %= 10000000;
+                }
+                if (integersVal >= 100000) {
+                    words += parseHundredsBlock(Math.floor(integersVal / 100000)) + ' Lakh ';
+                    integersVal %= 100000;
+                }
+                if (integersVal >= 1000) {
+                    words += parseHundredsBlock(Math.floor(integersVal / 1000)) + ' Thousand ';
+                    integersVal %= 1000;
+                }
+                if (integersVal > 0) {
+                    words += parseHundredsBlock(integersVal) + ' ';
+                }
+            } else {
+                // Western scale (Billions, Millions, Thousands)
+                if (integersVal >= 1000000000) {
+                    words += parseHundredsBlock(Math.floor(integersVal / 1000000000)) + ' Billion ';
+                    integersVal %= 1000000000;
+                }
+                if (integersVal >= 1000000) {
+                    words += parseHundredsBlock(Math.floor(integersVal / 1000000)) + ' Million ';
+                    integersVal %= 1000000;
+                }
+                if (integersVal >= 1000) {
+                    words += parseHundredsBlock(Math.floor(integersVal / 1000)) + ' Thousand ';
+                    integersVal %= 1000;
+                }
+                if (integersVal > 0) {
+                    words += parseHundredsBlock(integersVal) + ' ';
+                }
+            }
+
+            words = words.trim();
+
+            let unitName = 'Rupees';
+            let subUnitName = 'Paise';
+            let code = 'INR';
+
+            if (currency === 'USD') { unitName = 'Dollars'; subUnitName = 'Cents'; code = 'USD'; }
+            else if (currency === 'EUR') { unitName = 'Euros'; subUnitName = 'Cents'; code = 'EUR'; }
+            else if (currency === 'GBP') { unitName = 'Pounds'; subUnitName = 'Pence'; code = 'GBP'; }
+
+            let result = `${code} ${words} ${unitName}`;
+            if (decimalsVal > 0) {
+                result += ` and ${decimalsVal} ${subUnitName}`;
+            }
+            return result + ' Only';
+
+            function parseHundredsBlock(n) {
+                let w = '';
+                if (n >= 100) {
+                    w += ones[Math.floor(n / 100)] + ' Hundred ';
+                    n %= 100;
+                }
+                if (n >= 20) {
+                    w += tens[Math.floor(n / 10)] + ' ';
+                    n %= 10;
+                    if (n > 0) w += ones[n] + ' ';
+                } else if (n >= 10) {
+                    w += teens[n - 10] + ' ';
+                } else if (n > 0) {
+                    w += ones[n] + ' ';
+                }
+                return w.trim();
+            }
+        }
+
+        // NUMBER FORMTTER WITH COMMAS
+        function formatDisplayNumber(num) {
+            if (!num && num !== 0) return '0.00';
+            return parseFloat(num).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        }
+
+        // DOWNLOAD SAMPLE CSV FOR BULK IMPORT
+        function downloadSampleCSV() {
+            const csvContent = "empCode,empName,empDept,empDesig,basicSalary,secDep,secRet,withdraw\n" +
+                               "EMP001,John Doe,Sales & Marketing,Sales Executive,25000,1000,0,500\n" +
+                               "EMP002,Jane Smith,Human Resources,HR Manager,35000,0,1200,0\n" +
+                               "EMP003,Bob Johnson,Logistics,Warehouse Supervisor,18000,500,0,200";
+            const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'sample_salary_payroll.csv';
+            a.style.display = 'none';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+
+        // UPLOAD CSV FILE FOR BULK IMPORT
+        function uploadCSVFile(input) {
+            const file = input.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                const text = e.target.result;
+                document.getElementById('csvPasteArea').value = text;
+                // Automatically parse the CSV contents
+                processBulkCSV();
+                // Clear the file input value so that uploading the same file again triggers change event
+                input.value = '';
+            };
+            reader.readAsText(file);
+        }
+
+        // BULK CSV PROCESSOR FOR PAYROLL
+        function processBulkCSV() {
+            const csvText = document.getElementById('csvPasteArea').value.trim();
+            if (!csvText) {
+                alert("Please paste some employee data first.");
+                return;
+            }
+
+            const lines = csvText.split('\n');
+            let successCount = 0;
+
+            // Clear existing rows
+            const container = document.getElementById('salaryEmployeesContainer');
+            container.innerHTML = '';
+            salaryEmployees = [];
+
+            lines.forEach((line, i) => {
+                if (line.includes('empCode') && i === 0) return; // Skip headers
+                const cols = line.split(',').map(c => c.replace(/^"|"$/g, '').trim());
+
+                if (cols.length >= 5) {
+                    addNewEmployeeRowInput({
+                        code: cols[0],
+                        name: cols[1],
+                        dept: cols[2],
+                        desig: cols[3],
+                        basic: parseFloat(cols[4]) || 0,
+                        secDep: parseFloat(cols[5]) || 0,
+                        secRet: parseFloat(cols[6]) || 0,
+                        withdraw: parseFloat(cols[7]) || 0
+                    });
+                    successCount++;
+                }
+            });
+
+            if (successCount > 0) {
+                alert(`Successfully loaded ${successCount} employees!`);
+                document.getElementById('csvPasteArea').value = '';
+                triggerSalaryLiveUpdate();
+            } else {
+                alert("Could not parse any valid rows. Please check headers and formatting.");
+            }
+        }
+
+        // HISTORICAL LOGS MANAGER LOGIC
+        function saveToHistorySuite(type) {
+            const id = 'LOG_' + Date.now();
+            let title = '';
+            let payload = {};
+
+            if (type === 'invoice') {
+                const invNo = document.getElementById('invoiceNumber').value || 'INV-TEMP';
+                const comp = document.getElementById('companyName').value || 'Company';
+                title = `Invoice ${invNo} (${comp})`;
+                payload = serializeInvoiceFormData();
+            } else {
+                const comp = document.getElementById('salaryCompanyName').value || 'Company';
+                const month = document.getElementById('monthYear').value || 'Date';
+                title = `Salary Payroll - ${month} (${comp})`;
+                payload = serializeSalaryFormData();
+            }
+
+            const historyEntry = {
+                id: id,
+                title: title,
+                type: type,
+                timestamp: new Date().toLocaleString(),
+                data: payload
+            };
+
+            suiteHistory.unshift(historyEntry);
+            localStorage.setItem(LS_SUITE_HISTORY, JSON.stringify(suiteHistory));
+            alert("State snapshot saved successfully to Suite Logs!");
+            renderHistorySuiteList();
+        }
+
+        function renderHistorySuiteList() {
+            const container = document.getElementById('historyListContainer');
+            container.innerHTML = '';
+
+            if (suiteHistory.length === 0) {
+                container.innerHTML = `<p style="color: var(--text-muted); text-align: center; padding: 20px;">No historical logs found.</p>`;
+                return;
+            }
+
+            suiteHistory.forEach(item => {
+                const card = document.createElement('div');
+                card.className = 'history-item';
+                card.innerHTML = `
+                    <div class="history-info">
+                        <h4>${item.title}</h4>
+                        <p>Saved on ${item.timestamp} • Type: ${item.type.toUpperCase()}</p>
+                    </div>
+                    <div class="history-actions">
+                        <button class="btn btn-primary btn-sm" onclick="loadHistoryEntry('${item.id}')">Load</button>
+                        <button class="btn btn-danger btn-sm" onclick="deleteHistoryEntry('${item.id}')">Delete</button>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        function loadHistoryEntry(id) {
+            const item = suiteHistory.find(h => h.id === id);
+            if (!item) return;
+
+            if (confirm(`Do you want to load "${item.title}"? This will overwrite your current active suite inputs.`)) {
+                if (item.type === 'invoice') {
+                    deserializeInvoiceFormData(item.data);
+                    switchSuiteTab('invoice');
+                } else {
+                    deserializeSalaryFormData(item.data);
+                    switchSuiteTab('salary');
+                }
+            }
+        }
+
+        function deleteHistoryEntry(id) {
+            if (confirm("Are you sure you want to delete this historical log?")) {
+                suiteHistory = suiteHistory.filter(h => h.id !== id);
+                localStorage.setItem(LS_SUITE_HISTORY, JSON.stringify(suiteHistory));
+                renderHistorySuiteList();
+            }
+        }
+
+        // SERIALIZE & DESERIALIZE ENGINE FOR LOCAL STORAGE & HISTORY
+        function serializeInvoiceFormData() {
+            return {
+                companyPreset: document.getElementById('companyPreset').value,
+                companyName: document.getElementById('companyName').value,
+                gstNumber: document.getElementById('gstNumber').value,
+                stateName: document.getElementById('stateName').value,
+                stateCode: document.getElementById('stateCode').value,
+                consigneeName: document.getElementById('consigneeName').value,
+                consigneeState: document.getElementById('consigneeState').value,
+                buyerName: document.getElementById('buyerName').value,
+                buyerState: document.getElementById('buyerState').value,
+                buyerAddress: document.getElementById('buyerAddress').value,
+                bankName: document.getElementById('bankName').value,
+                bankAccount: document.getElementById('bankAccount').value,
+                bankIFSC: document.getElementById('bankIFSC').value,
+                taxType: document.getElementById('taxType').value,
+                cgstRate: document.getElementById('cgstRate').value,
+                sgstRate: document.getElementById('sgstRate').value,
+                igstRate: document.getElementById('igstRate').value,
+                currency: document.getElementById('currencySelect').value,
+                invoiceNumber: document.getElementById('invoiceNumber').value,
+                invoiceDate: document.getElementById('invoiceDate').value,
+                dated: document.getElementById('dated').value,
+                buyersOrderNo: document.getElementById('buyersOrderNo').value,
+                dispatchDocNo: document.getElementById('dispatchDocNo').value,
+                deliveryNoteDate: document.getElementById('deliveryNoteDate').value,
+                dispatchedThrough: document.getElementById('dispatchedThrough').value,
+                vesselFlightNo: document.getElementById('vesselFlightNo').value,
+                cityPortLoading: document.getElementById('cityPortLoading').value,
+                placeReceipt: document.getElementById('placeReceipt').value,
+                cityPortDischarge: document.getElementById('cityPortDischarge').value,
+                destination: document.getElementById('destination').value,
+                deliveryNote: document.getElementById('deliveryNote').value,
+                referenceNo: document.getElementById('referenceNo').value,
+                modePayment: document.getElementById('modePayment').value,
+                otherReferences: document.getElementById('otherReferences').value,
+                termsDelivery: document.getElementById('termsDelivery').value,
+                signatoryName: document.getElementById('signatoryName').value,
+                templateTheme: document.getElementById('templateTheme').value,
+                logoBase64: logoImageBase64,
+                products: Array.from(document.querySelectorAll('#invoiceProductsContainer .dynamic-item-card')).map(card => ({
+                    desc: card.querySelector('.prod-desc').value,
+                    hsn: card.querySelector('.prod-hsn').value,
+                    qty: card.querySelector('.prod-qty').value,
+                    rate: card.querySelector('.prod-rate').value,
+                    unit: card.querySelector('.prod-unit').value,
+                    discount: card.querySelector('.prod-discount').value
+                }))
+            };
+        }
+
+        function deserializeInvoiceFormData(data) {
+            if (!data) return;
+
+            document.getElementById('companyPreset').value = data.companyPreset || '';
+            document.getElementById('companyName').value = data.companyName || '';
+            document.getElementById('gstNumber').value = data.gstNumber || '';
+            document.getElementById('stateName').value = data.stateName || 'Gujarat';
+            document.getElementById('stateCode').value = data.stateCode || '24';
+            document.getElementById('consigneeName').value = data.consigneeName || '';
+            document.getElementById('consigneeState').value = data.consigneeState || '';
+            document.getElementById('buyerName').value = data.buyerName || '';
+            document.getElementById('buyerState').value = data.buyerState || '';
+            document.getElementById('buyerAddress').value = data.buyerAddress || '';
+            document.getElementById('bankName').value = data.bankName || '';
+            document.getElementById('bankAccount').value = data.bankAccount || '';
+            document.getElementById('bankIFSC').value = data.bankIFSC || '';
+
+            document.getElementById('taxType').value = data.taxType || 'cgst_sgst';
+            document.getElementById('cgstRate').value = data.cgstRate || '1.5';
+            document.getElementById('sgstRate').value = data.sgstRate || '1.5';
+            document.getElementById('igstRate').value = data.igstRate || '3.0';
+            document.getElementById('currencySelect').value = data.currency || 'INR';
+
+            document.getElementById('invoiceNumber').value = data.invoiceNumber || '';
+            document.getElementById('invoiceDate').value = data.invoiceDate || getIsoTodayString();
+            document.getElementById('dated').value = data.dated || '';
+            document.getElementById('buyersOrderNo').value = data.buyersOrderNo || '';
+            document.getElementById('dispatchDocNo').value = data.dispatchDocNo || '';
+            document.getElementById('deliveryNoteDate').value = data.deliveryNoteDate || '';
+            document.getElementById('dispatchedThrough').value = data.dispatchedThrough || '';
+            document.getElementById('vesselFlightNo').value = data.vesselFlightNo || '';
+            document.getElementById('cityPortLoading').value = data.cityPortLoading || '';
+            document.getElementById('placeReceipt').value = data.placeReceipt || '';
+            document.getElementById('cityPortDischarge').value = data.cityPortDischarge || '';
+            document.getElementById('destination').value = data.destination || '';
+            document.getElementById('deliveryNote').value = data.deliveryNote || '';
+            document.getElementById('referenceNo').value = data.referenceNo || '';
+            document.getElementById('modePayment').value = data.modePayment || '';
+            document.getElementById('otherReferences').value = data.otherReferences || '';
+            document.getElementById('termsDelivery').value = data.termsDelivery || '';
+            document.getElementById('signatoryName').value = data.signatoryName || '';
+
+            if (data.templateTheme) {
+                document.getElementById('templateTheme').value = data.templateTheme;
+                changeInvoiceTheme(data.templateTheme);
+            }
+
+            // Restore logo image
+            logoImageBase64 = data.logoBase64 || null;
+            syncLogoUI();
+
+            // Products Rebuild
+            const container = document.getElementById('invoiceProductsContainer');
+            container.innerHTML = '';
+            invoiceProducts = [];
+
+            if (data.products && data.products.length > 0) {
+                data.products.forEach(p => addNewProductRowInput(p));
+            } else {
+                addNewProductRowInput();
+            }
+
+            adjustTaxTypeView(data.taxType || 'cgst_sgst');
+        }
+
+        function serializeSalaryFormData() {
+            return {
+                salaryCompanyPreset: document.getElementById('salaryCompanyPreset').value,
+                salaryCompanyName: document.getElementById('salaryCompanyName').value,
+                monthYear: document.getElementById('monthYear').value,
+                employees: Array.from(document.querySelectorAll('#salaryEmployeesContainer .dynamic-item-card')).map(card => ({
+                    code: card.querySelector('.emp-code').value,
+                    name: card.querySelector('.emp-name').value,
+                    dept: card.querySelector('.emp-dept').value,
+                    desig: card.querySelector('.emp-desig').value,
+                    basic: card.querySelector('.emp-basic').value,
+                    secDep: card.querySelector('.emp-sec-dep').value,
+                    secRet: card.querySelector('.emp-sec-ret').value,
+                    withdraw: card.querySelector('.emp-withdraw').value
+                }))
+            };
+        }
+
+        function deserializeSalaryFormData(data) {
+            if (!data) return;
+
+            document.getElementById('salaryCompanyPreset').value = data.salaryCompanyPreset || '';
+            document.getElementById('salaryCompanyName').value = data.salaryCompanyName || 'OceanArc Exim';
+            document.getElementById('monthYear').value = (data.monthYear && data.monthYear !== 'November-2025') ? data.monthYear : getPreviousMonthYearString();
+
+            const container = document.getElementById('salaryEmployeesContainer');
+            container.innerHTML = '';
+            salaryEmployees = [];
+
+            if (data.employees && data.employees.length > 0) {
+                data.employees.forEach(emp => addNewEmployeeRowInput(emp));
+            } else {
+                addNewEmployeeRowInput();
+            }
+
+            triggerSalaryLiveUpdate();
+        }
+
+        function saveCurrentSuiteState(type) {
+            try {
+                if (type === 'invoice') {
+                    const stateObj = serializeInvoiceFormData();
+                    localStorage.setItem(LS_INVOICE_STATE, JSON.stringify(stateObj));
+                } else {
+                    const stateObj = serializeSalaryFormData();
+                    localStorage.setItem(LS_SALARY_STATE, JSON.stringify(stateObj));
+                }
+            } catch (e) {
+                console.warn("Save state warning:", e);
+            }
+        }
+
+        function loadSavedSuiteState() {
+            try {
+                // Initialize default triggers
+                const savedInvoice = localStorage.getItem(LS_INVOICE_STATE);
+                const savedSalary = localStorage.getItem(LS_SALARY_STATE);
+                const savedHistory = localStorage.getItem(LS_SUITE_HISTORY);
+
+                if (savedHistory) {
+                    suiteHistory = JSON.parse(savedHistory);
+                }
+
+                if (savedInvoice) {
+                    deserializeInvoiceFormData(JSON.parse(savedInvoice));
+                } else {
+                    // Load default preset details
+                    loadPresetDetails('oceanarc');
+                    addNewProductRowInput();
+                }
+
+                if (savedSalary) {
+                    deserializeSalaryFormData(JSON.parse(savedSalary));
+                } else {
+                    document.getElementById('monthYear').value = getPreviousMonthYearString();
+                    addNewEmployeeRowInput();
+                }
+            } catch (e) {
+                console.error("Init state failure:", e);
+            }
+        }
+
+        function resetActiveForm(type) {
+            if (confirm("Are you sure you want to reset all active form values?")) {
+                if (type === 'invoice') {
+                    localStorage.removeItem(LS_INVOICE_STATE);
+                    logoImageBase64 = null;
+                    syncLogoUI();
+
+                    // Clear inputs manually
+                    document.querySelectorAll('#invoiceFormWizard input').forEach(i => i.value = '');
+                    document.getElementById('buyerAddress').value = '';
+
+                    document.getElementById('invoiceDate').value = getIsoTodayString();
+                    document.getElementById('companyPreset').value = 'oceanarc';
+                    loadPresetDetails('oceanarc');
+
+                    const container = document.getElementById('invoiceProductsContainer');
+                    container.innerHTML = '';
+                    invoiceProducts = [];
+                    addNewProductRowInput();
+                } else {
+                    localStorage.removeItem(LS_SALARY_STATE);
+                    document.getElementById('salaryCompanyPreset').value = 'oceanarc';
+                    loadSalaryPresetDetails('oceanarc');
+                    document.getElementById('monthYear').value = getPreviousMonthYearString();
+
+                    const container = document.getElementById('salaryEmployeesContainer');
+                    container.innerHTML = '';
+                    salaryEmployees = [];
+                    addNewEmployeeRowInput();
+                }
+            }
+        }
+
+        // FULL DATABASE BACKUP EXPORT & IMPORT
+        document.getElementById('exportBackupBtn').addEventListener('click', () => {
+            const backup = {
+                invoiceState: localStorage.getItem(LS_INVOICE_STATE),
+                salaryState: localStorage.getItem(LS_SALARY_STATE),
+                historyLogs: localStorage.getItem(LS_SUITE_HISTORY)
+            };
+
+            const blob = new Blob([JSON.stringify(backup, null, 2)], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `OceanArc_Suite_Backup_${Date.now()}.json`;
+            a.click();
+            URL.revokeObjectURL(url);
+        });
+
+        document.getElementById('backupFileInput').addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = function (evt) {
+                try {
+                    const backup = JSON.parse(evt.target.result);
+                    if (backup.invoiceState) localStorage.setItem(LS_INVOICE_STATE, backup.invoiceState);
+                    if (backup.salaryState) localStorage.setItem(LS_SALARY_STATE, backup.salaryState);
+                    if (backup.historyLogs) localStorage.setItem(LS_SUITE_HISTORY, backup.historyLogs);
+
+                    alert("Backup file loaded successfully! Reloading Suite...");
+                    window.location.reload();
+                } catch (err) {
+                    alert("Invalid backup file format.");
+                }
+            };
+            reader.readAsText(file);
+        });
+
+        // ATTACH LIVE STORAGE OBSERVERS
+        function attachChangeObservers() {
+            const invoiceInputs = document.querySelectorAll('#invoiceFormWizard input, #invoiceFormWizard select, #invoiceFormWizard textarea');
+            invoiceInputs.forEach(input => {
+                input.addEventListener('input', () => {
+                    triggerLiveUpdate();
+                    saveCurrentSuiteState('invoice');
+                });
+            });
+
+            const salaryInputs = document.querySelectorAll('#salaryFormWizard input, #salaryFormWizard select');
+            salaryInputs.forEach(input => {
+                input.addEventListener('input', () => {
+                    triggerSalaryLiveUpdate();
+                    saveCurrentSuiteState('salary');
+                });
+            });
+        }
+
+        // SYSTEM PRINT ROUTING WITH DYNAMIC FILENAME
+        let originalPageTitle = document.title;
+
+        window.addEventListener('beforeprint', () => {
+            originalPageTitle = document.title;
+            const tab = localStorage.getItem('billv_suite_tab') || 'invoice';
+            if (tab === 'invoice') {
+                const invNum = (document.getElementById('invoiceNumber').value || 'TEMP').trim().replace(/[^a-zA-Z0-9-_]/g, '_');
+                const compName = (document.getElementById('companyName').value || 'Invoice').trim().replace(/[^a-zA-Z0-9-_]/g, '_');
+                document.title = `${compName}_Invoice_${invNum}`;
+            } else {
+                const compName = (document.getElementById('salaryCompanyName').value || 'Salary').trim().replace(/[^a-zA-Z0-9-_]/g, '_');
+                const month = (document.getElementById('monthYear').value || 'Payroll').trim().replace(/[^a-zA-Z0-9-_]/g, '_');
+                document.title = `${compName}_Salary_${month}`;
+            }
+        });
+
+        window.addEventListener('afterprint', () => {
+            document.title = originalPageTitle;
+        });
+
+        function executePrintingSuite() {
+            window.print();
+        }
+
+        // ENTERPRISE HIGH QUALITY PDF GENERATOR ENGINE
+        async function saveDocumentAsPDF() {
+            const tab = localStorage.getItem('billv_suite_tab') || 'invoice';
+            const actionBtn = document.getElementById('exportPdfActionBtn');
+            const originalText = actionBtn.textContent;
+
+            try {
+                actionBtn.textContent = 'Generating PDF...';
+                actionBtn.disabled = true;
+
+                const { jsPDF } = window.jspdf;
+
+                if (tab === 'invoice') {
+                    const invoiceSheet = document.getElementById('invoiceContainer');
+
+                    // Force print rendering layouts
+                    invoiceSheet.classList.add('pdf-render-mode');
+
+                    // Capture high DPI canvas
+                    const canvas = await html2canvas(invoiceSheet, {
+                        scale: 3, // Premium ultra sharp rendering
+                        useCORS: true,
+                        backgroundColor: '#ffffff',
+                        logging: false
+                    });
+
+                    invoiceSheet.classList.remove('pdf-render-mode');
+
+                    const imgData = canvas.toDataURL('image/jpeg', 0.95);
+                    const pdf = new jsPDF({
+                        orientation: 'portrait',
+                        unit: 'mm',
+                        format: 'a4'
+                    });
+
+                    const imgWidth = 210; // A4 Width in mm
+                    const imgHeight = (canvas.height * imgWidth) / canvas.width;
+
+                    pdf.addImage(imgData, 'JPEG', 0, 0, imgWidth, imgHeight);
+
+                    const invNum = document.getElementById('invoiceNumber').value || 'TEMP';
+                    const compName = (document.getElementById('companyName').value || 'Invoice').replace(/\s+/g, '_');
+                    pdf.save(`${compName}_Invoice_${invNum}.pdf`);
+                } else {
+                    // Salary Slips multi-page download
+                    const slips = document.querySelectorAll('.salary-sheet-view');
+                    if (slips.length === 0) {
+                        alert("No salary slips to print.");
+                        return;
+                    }
+
+                    const pdf = new jsPDF({
+                        orientation: 'portrait',
+                        unit: 'mm',
+                        format: 'a4'
+                    });
+
+                    for (let i = 0; i < slips.length; i++) {
+                        // Add a new page every 2 slips (index 0, 1 on page 1; 2, 3 on page 2, etc.)
+                        if (i > 0 && i % 2 === 0) {
+                            pdf.addPage();
+                        }
+
+                        const slip = slips[i];
+
+                        // Temporarily adjust padding/margin for clean capture
+                        const originalPadding = slip.style.padding;
+                        const originalMargin = slip.style.margin;
+                        slip.style.padding = '30px';
+                        slip.style.margin = '0';
+
+                        // High DPI rendering
+                        const canvas = await html2canvas(slip, {
+                            scale: 3,
+                            useCORS: true,
+                            backgroundColor: '#ffffff',
+                            logging: false
+                        });
+
+                        // Restore styles
+                        slip.style.padding = originalPadding;
+                        slip.style.margin = originalMargin;
+
+                        const imgData = canvas.toDataURL('image/jpeg', 0.95);
+
+                        // Dimensions in mm for PDF (A4 = 210 x 297)
+                        let finalImgWidth = 190;
+                        let finalImgHeight = (canvas.height * finalImgWidth) / canvas.width;
+
+                        // Limit height to 135mm to fit two on page
+                        if (finalImgHeight > 135) {
+                            const scaleFactor = 135 / finalImgHeight;
+                            finalImgWidth = finalImgWidth * scaleFactor;
+                            finalImgHeight = 135;
+                        }
+
+                        const xOffset = (210 - finalImgWidth) / 2;
+
+                        // If even index (first on page), place in top half. If odd (second on page), place in bottom half.
+                        const positionInPage = i % 2;
+                        const baseY = positionInPage * 148.5;
+                        const yOffset = baseY + (148.5 - finalImgHeight) / 2;
+
+                        pdf.addImage(imgData, 'JPEG', xOffset, yOffset, finalImgWidth, finalImgHeight);
+                    }
+
+                    const month = (document.getElementById('monthYear').value || 'Payroll').replace(/\s+/g, '_');
+                    pdf.save(`Salary_Slips_${month}.pdf`);
+                }
+
+                alert("PDF exported successfully!");
+
+            } catch (err) {
+                console.error("PDF engine crash:", err);
+                alert("Error during PDF rendering. Standard print to PDF will be opened as fallback.");
+                window.print();
+            } finally {
+                actionBtn.textContent = originalText;
+                actionBtn.disabled = false;
+            }
+        }
+
+        // RUN BOOT ENGINE
+        document.addEventListener('DOMContentLoaded', () => {
+            initTheme();
+            loadSavedSuiteState();
+
+            // Default active suite view tab loader
+            const activeTab = localStorage.getItem('billv_suite_tab') || 'invoice';
+            switchSuiteTab(activeTab);
+
+            // Bind triggers
+            attachChangeObservers();
+        });
+    </script>
+</body>
+
+</html>
